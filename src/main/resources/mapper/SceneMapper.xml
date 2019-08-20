@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.letsky.movie.repository.SceneRepository">
+
+    <update id="update" parameterType="Scene">
+        UPDATE `scene`
+        <set>
+            <if test="movieId != null">movie_id = #{movieId},</if>
+            <if test="movieName != null">movie_name = #{movieName},</if>
+            <if test="price != null">price = #{price},</if>
+            <if test="seatNum != null">seat_num = #{seatNum},</if>
+            <if test="showtime != null">showtime = #{showtime},</if>
+            <if test="bookedSeat != null">booked_seat = #{bookedSeat}</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+</mapper>

@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    url: jdbc:mariadb://127.0.0.1:3306/movie?characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
+    username: root
+    password: 1234
+    driver-class-name: org.mariadb.jdbc.Driver
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    cache: false
+mybatis:
+  type-aliases-package: cn.letsky.movie.entity
+  mapper-locations: classpath:mapper/*Mapper.xml
+pagehelper:
+  reasonable: true
