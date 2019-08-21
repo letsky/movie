@@ -54,8 +54,14 @@ public class CategoryRepositoryTest {
 
     //test delete
     @Test
-    public void test() {
+    public void test5() {
         int result = categoryRepository.delete(1);
+        assertEquals(1, result);
+    }
+
+    @Test
+    public void test6() {
+        int result = categoryRepository.insertRelationship(3, 1);
         assertEquals(1, result);
     }
 }

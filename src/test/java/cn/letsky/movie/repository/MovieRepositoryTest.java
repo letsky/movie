@@ -29,7 +29,6 @@ public class MovieRepositoryTest {
                 .directors("韩寒")
                 .actors("")
                 .status(MovieStatus.ON)
-                .categoryId(1)
                 .build();
         int result = repository.insert(movie);
         assertEquals(1, result);
@@ -38,8 +37,9 @@ public class MovieRepositoryTest {
     //test findById
     @Test
     public void test2() {
-        Movie movie = repository.findById(1)
+        Movie movie = repository.findById(2)
                 .orElseThrow(EntityNotFoundException::new);
+        System.out.println(movie);
         assertNotNull(movie);
     }
 
@@ -57,6 +57,7 @@ public class MovieRepositoryTest {
     @Test
     public void test4() {
         List<Movie> list = repository.findAll();
+        System.out.println(list);
         assertNotEquals(0, list.size());
     }
 
@@ -65,5 +66,13 @@ public class MovieRepositoryTest {
     public void test5() {
         int result = repository.delete(1);
         assertEquals(1, result);
+    }
+
+    //test findByCategoryId
+    @Test
+    public void test6() {
+        List<Movie> list = repository.findByCategoryId(1);
+        System.out.println(list);
+        assertNotEquals(0, list.size());
     }
 }
