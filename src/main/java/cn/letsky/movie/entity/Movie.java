@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Builder
@@ -54,13 +55,10 @@ public class Movie {
     private String country;
 
     /**
-     * 类别
-     */
-    private Integer categoryId;
-
-    /**
      * 电影状态 上映/下映
      * {@link cn.letsky.movie.constrant.MovieStatus}
      */
     private String status = MovieStatus.OFF;
+
+    private List<Category> categories;
 }

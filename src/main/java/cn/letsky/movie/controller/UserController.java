@@ -1,28 +1,37 @@
 package cn.letsky.movie.controller;
 
 import cn.letsky.movie.entity.User;
-import cn.letsky.movie.repository.UserRepository;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import cn.letsky.movie.service.UserService;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
 
-    @Autowired
-    private UserRepository repository;
+    private final UserService userService;
 
-    @GetMapping
-    public PageInfo<User> getUsers(
-            @RequestParam(value = "page", defaultValue = "1") Integer page,
-            @RequestParam(value = "size", defaultValue = "20") Integer size) {
-        PageHelper.startPage(page, size);
-        return PageInfo.of(repository.findAll());
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
+    @PostMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<Void> login(@RequestBody User user) {
+        check(user);
+        userService.login(user);
+        return ResponseEntity.ok().build();
+    }
+
+
+    @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<Void> register(@RequestBody User user) {
+        check(user);
+        userService.register(user);
+        return ResponseEntity.ok().build();
+    }
+
+    private void check(User user) {
     }
 }
