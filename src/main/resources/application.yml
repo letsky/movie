@@ -13,3 +13,6 @@ mybatis:
   mapper-locations: classpath:mapper/*Mapper.xml
 pagehelper:
   reasonable: true
+logging:
+  level:
+    cn.letsky.movie.repository: debug

@@ -13,33 +13,24 @@
         <result property="poster" column="poster"/>
         <result property="country" column="country"/>
         <result property="status" column="status"/>
-        <collection property="categories" ofType="Category">
-            <id property="id" column="category_id"/>
-            <result property="name" column="category_name"/>
-        </collection>
+        <collection column="id" property="categories" ofType="Category" select="getCategoryById"/>
     </resultMap>
-    <select id="findById" parameterType="Integer" resultMap="movieResult">
-        SELECT m.*, c.name AS category_name, c.id AS category_id
-        FROM movie m
-        LEFT JOIN movie_category_relationship r
-        ON m.id = r.movie_id
-        LEFT JOIN category c ON r.category_id = c.id
-        WHERE m.id = #{id}
+
+    <select id="findById" parameterType="int" resultMap="movieResult">
+        SELECT *
+        FROM movie
+        WHERE id = #{id}
     </select>
-    <select id="findByCategoryId" parameterType="Integer" resultMap="movieResult">
-        SELECT m.*, c.name AS category_name, c.id AS category_id
-        FROM movie m
-        LEFT JOIN movie_category_relationship r
-        ON m.id = r.movie_id
-        LEFT JOIN category c ON r.category_id = c.id
-        WHERE c.id = #{categoryId}
+    <select id="findAllByCategoryId" parameterType="int" resultMap="movieResult">
+        SELECT m.*
+        FROM movie m,
+             movie_category_relationship r
+        WHERE r.movie_id = m.id
+          AND r.category_id = #{categoryId}
     </select>
     <select id="findAll" resultMap="movieResult">
-        SELECT m.*, c.name AS category_name, c.id AS category_id
-        FROM movie m
-        LEFT JOIN movie_category_relationship r
-        ON m.id = r.movie_id
-        LEFT JOIN category c ON r.category_id = c.id
+        SELECT *
+        FROM movie
     </select>
     <update id="update" parameterType="Movie">
         UPDATE `movie`
@@ -56,4 +47,11 @@
         </set>
         WHERE id = #{id}
     </update>
+    <select id="getCategoryById" parameterType="int" resultType="Category">
+        SELECT c.*
+        FROM category c
+                 LEFT JOIN movie_category_relationship r
+                           ON c.id = r.category_id
+        WHERE movie_id = #{id}
+    </select>
 </mapper>

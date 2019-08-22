@@ -31,6 +31,7 @@ public class MovieRepositoryTest {
                 .status(MovieStatus.ON)
                 .build();
         int result = repository.insert(movie);
+        System.out.println(movie);
         assertEquals(1, result);
     }
 
@@ -71,7 +72,7 @@ public class MovieRepositoryTest {
     //test findByCategoryId
     @Test
     public void test6() {
-        List<Movie> list = repository.findByCategoryId(1);
+        List<Movie> list = repository.findAllByCategoryId(1);
         System.out.println(list);
         assertNotEquals(0, list.size());
     }

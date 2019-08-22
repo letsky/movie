@@ -38,7 +38,8 @@ public class NewsController {
     @PostMapping
     public ResponseEntity addNews(@RequestBody News news) {
         int result = repository.insert(news);
-        return CommonUtils.check(result, "添加失败");
+        CommonUtils.checkInsert(result);
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping("/{id}")
@@ -46,14 +47,16 @@ public class NewsController {
         isPresent(id);
         news.setId(id);
         int result = repository.update(news);
-        return CommonUtils.check(result, "更新失败");
+        CommonUtils.checkUpdate(result);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteNews(@PathVariable Integer id) {
         isPresent(id);
         int result = repository.delete(id);
-        return CommonUtils.check(result, "删除失败");
+        CommonUtils.checkDelete(result);
+        return ResponseEntity.ok().build();
     }
 
     private News isPresent(Integer id) {

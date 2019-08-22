@@ -29,4 +29,7 @@ public interface CategoryRepository {
 
     @Delete("DELETE FROM `category` WHERE id = #{id}")
     int delete(Integer id);
+
+    @Delete("DELETE FROM `movie_category_relationship` WHERE movie_id = #{movieId}")
+    int deleteRelationship(Integer movieId);
 }

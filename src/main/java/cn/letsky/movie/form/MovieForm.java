@@ -1,10 +1,8 @@
 package cn.letsky.movie.form;
 
-import cn.letsky.movie.constrant.MovieStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 
@@ -13,7 +11,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class MovieForm {
 
-    private String movieName;
+    private String name;
 
     /**
      * 电影时长

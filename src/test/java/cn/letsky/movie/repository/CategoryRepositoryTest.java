@@ -64,4 +64,11 @@ public class CategoryRepositoryTest {
         int result = categoryRepository.insertRelationship(3, 1);
         assertEquals(1, result);
     }
+
+    @Test
+    public void test7() {
+        int result = categoryRepository.deleteRelationship(2);
+        System.out.println("result" + result);
+        assertNotEquals(0, result);
+    }
 }
