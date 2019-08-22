@@ -34,7 +34,17 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public void update(Movie movie, Integer[] categoryIds) {
-
+        int result = movieRepository.update(movie);
+        CommonUtils.checkInsert(result);
+        int movieId = movie.getId();
+        int deleteResult = categoryRepository.deleteRelationship(movieId);
+        CommonUtils.checkDelete(deleteResult);
+        if (categoryIds != null) {
+            for (int categoryId : categoryIds) {
+                int i = categoryRepository.insertRelationship(movieId, categoryId);
+                CommonUtils.checkInsert(i);
+            }
+        }
     }
 
     @Override

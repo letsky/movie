@@ -20,15 +20,15 @@ public interface CategoryRepository {
     @Insert("INSERT INTO `category` (name) VALUES (#{name})")
     int insert(Category category);
 
-    @Insert("INSERT INTO `movie_category_relationship` " +
-            "(movie_id, category_id) VALUES (#{movieId}, #{categoryId})")
-    int insertRelationship(@Param("movieId") int movieId, @Param("categoryId") int categoryId);
-
     @Update("UPDATE `category` SET name = #{name} WHERE id = #{id}")
     int update(Category category);
 
     @Delete("DELETE FROM `category` WHERE id = #{id}")
     int delete(Integer id);
+
+    @Insert("INSERT INTO `movie_category_relationship` " +
+            "(movie_id, category_id) VALUES (#{movieId}, #{categoryId})")
+    int insertRelationship(@Param("movieId") int movieId, @Param("categoryId") int categoryId);
 
     @Delete("DELETE FROM `movie_category_relationship` WHERE movie_id = #{movieId}")
     int deleteRelationship(Integer movieId);

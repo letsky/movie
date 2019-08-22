@@ -3,6 +3,7 @@ package cn.letsky.movie.form;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Range;
 
 import java.util.Date;
 
@@ -11,11 +12,14 @@ import java.util.Date;
 @AllArgsConstructor
 public class MovieForm {
 
+    private Integer id;
+
     private String name;
 
     /**
      * 电影时长
      */
+    @Range(min = 1, max = 999)
     private Integer duration;
 
     /**

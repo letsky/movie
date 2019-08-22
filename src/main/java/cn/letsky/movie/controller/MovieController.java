@@ -2,7 +2,6 @@ package cn.letsky.movie.controller;
 
 import cn.letsky.movie.entity.Movie;
 import cn.letsky.movie.exception.EntityNotFoundException;
-import cn.letsky.movie.exception.GlobalException;
 import cn.letsky.movie.form.MovieForm;
 import cn.letsky.movie.repository.MovieRepository;
 import cn.letsky.movie.service.MovieService;
@@ -56,12 +55,18 @@ public class MovieController {
     @PostMapping
     public ResponseEntity addMovie(
             @RequestBody @Valid MovieForm movieForm, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            throw new GlobalException(bindingResult.getFieldError().getDefaultMessage());
-        }
         Movie movie = new Movie();
         BeanUtils.copyProperties(movieForm, movie);
         movieService.add(movie, movieForm.getCategoryIds());
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping
+    public ResponseEntity updateMovie(
+            @RequestBody @Valid MovieForm movieForm, BindingResult bindingResult) {
+        Movie movie = new Movie();
+        BeanUtils.copyProperties(movieForm, movie);
+        movieService.update(movie, movieForm.getCategoryIds());
         return ResponseEntity.ok().build();
     }
 
