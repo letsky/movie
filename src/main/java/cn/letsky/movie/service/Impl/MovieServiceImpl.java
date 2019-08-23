@@ -1,6 +1,7 @@
 package cn.letsky.movie.service.Impl;
 
 import cn.letsky.movie.entity.Movie;
+import cn.letsky.movie.exception.EntityNotFoundException;
 import cn.letsky.movie.repository.CategoryRepository;
 import cn.letsky.movie.repository.MovieRepository;
 import cn.letsky.movie.service.MovieService;
@@ -53,5 +54,11 @@ public class MovieServiceImpl implements MovieService {
         CommonUtils.checkDelete(result);
         int i = categoryRepository.deleteRelationship(id);
         CommonUtils.checkDelete(i);
+    }
+
+    @Override
+    public Movie check(Integer movieId) {
+        return movieRepository.findById(movieId)
+                .orElseThrow(EntityNotFoundException::new);
     }
 }

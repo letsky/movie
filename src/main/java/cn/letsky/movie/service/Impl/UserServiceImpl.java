@@ -50,6 +50,12 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(EntityNotFoundException::new);
     }
 
+    @Override
+    public User check(Integer id) {
+        return userRepository.findById(id)
+                .orElseThrow(EntityNotFoundException::new);
+    }
+
     private static void registered(User user) {
         throw new GlobalException(user.getEmail() + "账号已经被注册了！");
     }
