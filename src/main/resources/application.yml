@@ -11,8 +11,11 @@ spring:
 mybatis:
   type-aliases-package: cn.letsky.movie.entity
   mapper-locations: classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
 pagehelper:
   reasonable: true
 logging:
   level:
     cn.letsky.movie.repository: debug
+upload-position: D:\upload

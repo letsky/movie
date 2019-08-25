@@ -76,4 +76,13 @@ public class MovieRepositoryTest {
         System.out.println(list);
         assertNotEquals(0, list.size());
     }
+
+    //test findAllByStatus
+    @Test
+    public void test7() {
+        List<Movie> all = repository.findAllByStatus(MovieStatus.ON);
+        System.out.println(all);
+        System.out.println(all.size());
+        assertNotEquals(0, all.size());
+    }
 }

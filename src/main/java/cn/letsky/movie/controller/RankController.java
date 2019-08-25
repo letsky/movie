@@ -2,7 +2,7 @@ package cn.letsky.movie.controller;
 
 import cn.letsky.movie.entity.Rank;
 import cn.letsky.movie.form.RankForm;
-import cn.letsky.movie.repository.RankRepository;
+import cn.letsky.movie.service.RankService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -17,10 +17,10 @@ import javax.validation.Valid;
 @RequestMapping("/ranks")
 public class RankController {
 
-    private final RankRepository rankRepository;
+    private final RankService rankService;
 
-    public RankController(RankRepository rankRepository) {
-        this.rankRepository = rankRepository;
+    public RankController(RankService rankService) {
+        this.rankService = rankService;
     }
 
     @PostMapping
@@ -28,6 +28,9 @@ public class RankController {
             @RequestBody @Valid RankForm rankForm, BindingResult bindingResult) {
         Rank rank = new Rank();
         BeanUtils.copyProperties(rankForm, rank);
+        rankService.add(rank);
         return ResponseEntity.ok().build();
     }
+
+
 }

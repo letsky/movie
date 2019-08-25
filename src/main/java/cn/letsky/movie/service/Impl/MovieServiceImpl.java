@@ -1,5 +1,6 @@
 package cn.letsky.movie.service.Impl;
 
+import cn.letsky.movie.constrant.MovieStatus;
 import cn.letsky.movie.entity.Movie;
 import cn.letsky.movie.exception.EntityNotFoundException;
 import cn.letsky.movie.repository.CategoryRepository;
@@ -8,6 +9,8 @@ import cn.letsky.movie.service.MovieService;
 import cn.letsky.movie.util.CommonUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Transactional
@@ -53,7 +56,12 @@ public class MovieServiceImpl implements MovieService {
         int result = movieRepository.delete(id);
         CommonUtils.checkDelete(result);
         int i = categoryRepository.deleteRelationship(id);
-        CommonUtils.checkDelete(i);
+        //TODO 删除场次
+    }
+
+    @Override
+    public List<Movie> getReleasedMovie() {
+        return movieRepository.findAllByStatus(MovieStatus.ON);
     }
 
     @Override

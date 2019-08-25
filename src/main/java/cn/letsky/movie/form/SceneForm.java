@@ -3,17 +3,18 @@ package cn.letsky.movie.form;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.Range;
+
+import javax.validation.constraints.NotBlank;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RankForm {
-
-    private Integer userId;
+public class SceneForm {
 
     private Integer movieId;
 
-    @Range(min = 0, max = 5)
-    private Integer score;
+    private Integer price;
+
+    @NotBlank(message = "播放时间不能为空")
+    private String showtime;
 }

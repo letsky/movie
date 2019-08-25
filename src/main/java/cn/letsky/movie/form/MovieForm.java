@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Range;
 
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
 @Data
@@ -15,6 +16,9 @@ public class MovieForm {
     private Integer id;
 
     private String name;
+
+    @NotBlank(message = "图片链接不能为空")
+    private String poster;
 
     /**
      * 电影时长

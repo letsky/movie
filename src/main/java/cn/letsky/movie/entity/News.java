@@ -16,6 +16,8 @@ public class News {
 
     private Integer id;
 
+    private String title;
+
     private String content;
 
     private Date createTime = new Date();

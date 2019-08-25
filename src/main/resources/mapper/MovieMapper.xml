@@ -32,6 +32,11 @@
         SELECT *
         FROM movie
     </select>
+    <select id="findAllByStatus" parameterType="String" resultMap="movieResult">
+        SELECT *
+        FROM `movie`
+        WHERE status = #{status}
+    </select>
     <update id="update" parameterType="Movie">
         UPDATE `movie`
         <set>

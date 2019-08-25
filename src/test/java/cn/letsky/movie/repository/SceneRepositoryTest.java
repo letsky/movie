@@ -53,6 +53,7 @@ public class SceneRepositoryTest {
     @Test
     public void test4() {
         List<Scene> list = repository.findAll();
+        System.out.println(list);
         assertNotEquals(0, list.size());
     }
 

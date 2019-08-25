@@ -23,6 +23,9 @@ public interface MovieRepository {
     // xml实现
     List<Movie> findAll();
 
+    // xml实现
+    List<Movie> findAllByStatus(String status);
+
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
     @Insert("INSERT INTO `movie` (name, duration, directors, actors," +
             " release_date, plot, poster, country, status) " +

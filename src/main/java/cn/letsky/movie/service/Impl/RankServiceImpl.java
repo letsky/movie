@@ -5,6 +5,7 @@ import cn.letsky.movie.repository.RankRepository;
 import cn.letsky.movie.service.MovieService;
 import cn.letsky.movie.service.RankService;
 import cn.letsky.movie.service.UserService;
+import cn.letsky.movie.util.CommonUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +31,15 @@ public class RankServiceImpl implements RankService {
         int movieId = rank.getMovieId();
         userService.check(userId);
         movieService.check(movieId);
-        rankRepository.insert(rank);
+        int result = rankRepository.insert(rank);
+        CommonUtils.checkInsert(result);
     }
+
+    @Override
+    public Double getAvg(Integer movieId) {
+        movieService.check(movieId);
+        return rankRepository.findScoreByMovieId(movieId);
+    }
+
+
 }

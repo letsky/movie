@@ -9,8 +9,11 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/categories")
+@CrossOrigin(value = "*", allowCredentials = "true")
 public class CategoryController {
 
     private final CategoryRepository repository;
@@ -32,6 +35,12 @@ public class CategoryController {
     public ResponseEntity<Category> getCategory(@PathVariable Integer id) {
         Category category = isPresent(id);
         return ResponseEntity.ok(category);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<Category>> getAllCategory() {
+        List<Category> list = repository.findAll();
+        return ResponseEntity.ok(list);
     }
 
     @PostMapping

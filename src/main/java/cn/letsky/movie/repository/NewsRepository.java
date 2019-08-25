@@ -17,7 +17,7 @@ public interface NewsRepository {
     @Select("SELECT * FROM `news`")
     List<News> findAll();
 
-    @Insert("INSERT INTO `news` (content, create_time) VALUES (#{content}, #{createTime})")
+    @Insert("INSERT INTO `news` (title, content, create_time) VALUES (#{title}, #{content}, #{createTime})")
     int insert(News news);
 
     @Update("UPDATE `news` SET content = #{content}")

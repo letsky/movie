@@ -25,7 +25,8 @@ public class UserController {
     }
 
     @PostMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<Void> login(@RequestBody @Valid UserForm userForm, BindingResult bindingResult) {
+    public ResponseEntity<Void> login(
+            @RequestBody @Valid UserForm userForm, BindingResult bindingResult) {
         User user = new User();
         BeanUtils.copyProperties(userForm, user);
         userService.login(user);
@@ -34,9 +35,11 @@ public class UserController {
 
 
     @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<Void> register(@RequestBody @Valid UserForm userForm, BindingResult bindingResult) {
+    public ResponseEntity<Void> register(
+            @RequestBody @Valid UserForm userForm, BindingResult bindingResult) {
         User user = new User();
         BeanUtils.copyProperties(userForm, user);
+        userService.register(user);
         return ResponseEntity.ok().build();
     }
 }
