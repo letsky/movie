@@ -8,10 +8,10 @@ public class MovieStatus {
     /**
      * 上映
      */
-    public static final String ON = "on";
+    public static final Integer ON = 1;
 
     /**
      * 下映
      */
-    public static final String OFF = "off";
+    public static final Integer OFF = 0;
 }

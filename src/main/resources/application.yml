@@ -18,4 +18,6 @@ pagehelper:
 logging:
   level:
     cn.letsky.movie.repository: debug
-upload-position: D:\upload
+upload:
+  suffix: /imgs/
+  position: D:\upload

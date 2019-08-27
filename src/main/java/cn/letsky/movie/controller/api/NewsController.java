@@ -1,4 +1,4 @@
-package cn.letsky.movie.controller;
+package cn.letsky.movie.controller.api;
 
 import cn.letsky.movie.entity.News;
 import cn.letsky.movie.exception.EntityNotFoundException;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/news")
+@RequestMapping("/api/news")
 @CrossOrigin(value = "*", allowCredentials = "true")
 public class NewsController {
 

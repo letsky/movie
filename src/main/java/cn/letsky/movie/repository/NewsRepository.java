@@ -17,6 +17,9 @@ public interface NewsRepository {
     @Select("SELECT * FROM `news`")
     List<News> findAll();
 
+    @Select("SELECT * FROM `news` ORDER BY create_time DESC LIMIT 0, #{size}")
+    List<News> findLimit(int size);
+
     @Insert("INSERT INTO `news` (title, content, create_time) VALUES (#{title}, #{content}, #{createTime})")
     int insert(News news);
 

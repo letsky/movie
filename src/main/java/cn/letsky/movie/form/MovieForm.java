@@ -60,5 +60,5 @@ public class MovieForm {
      * 电影状态 上映/下映
      * {@link cn.letsky.movie.constrant.MovieStatus}
      */
-    private String status;
+    private Integer status;
 }

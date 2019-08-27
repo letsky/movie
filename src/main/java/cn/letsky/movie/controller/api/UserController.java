@@ -1,4 +1,4 @@
-package cn.letsky.movie.controller;
+package cn.letsky.movie.controller.api;
 
 import cn.letsky.movie.entity.User;
 import cn.letsky.movie.form.UserForm;
@@ -7,15 +7,14 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/users")
+@CrossOrigin(value = "*", allowCredentials = "true")
 public class UserController {
 
     private final UserService userService;
@@ -26,10 +25,20 @@ public class UserController {
 
     @PostMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Void> login(
-            @RequestBody @Valid UserForm userForm, BindingResult bindingResult) {
+            @RequestBody @Valid UserForm userForm, HttpSession session, BindingResult bindingResult) {
         User user = new User();
         BeanUtils.copyProperties(userForm, user);
         userService.login(user);
+        User u = userService.getUserInfo(user.getEmail());
+        session.setAttribute("user", u.getId());
+        session.setAttribute("nickname", u.getNickname());
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping(value = "/logout", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<Void> logout(HttpSession session) {
+        session.removeAttribute("user");
+        session.removeAttribute("nickname");
         return ResponseEntity.ok().build();
     }
 

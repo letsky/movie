@@ -10,6 +10,8 @@ public interface UserService {
 
     User getUserInfo(Integer id);
 
+    User getUserInfo(String email);
+
     /**
      * 检查用户是否存在，不存在抛出<code>EntityNotFoundException</code>异常
      *

@@ -1,10 +1,7 @@
 package cn.letsky.movie.repository;
 
 import cn.letsky.movie.entity.Movie;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -24,7 +21,9 @@ public interface MovieRepository {
     List<Movie> findAll();
 
     // xml实现
-    List<Movie> findAllByStatus(String status);
+    List<Movie> findAllByStatus(Integer status);
+
+    List<Movie> findLimitByStatus(@Param("status") Integer status, @Param("size") int size);
 
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
     @Insert("INSERT INTO `movie` (name, duration, directors, actors," +

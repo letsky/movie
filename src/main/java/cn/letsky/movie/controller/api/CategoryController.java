@@ -1,4 +1,4 @@
-package cn.letsky.movie.controller;
+package cn.letsky.movie.controller.api;
 
 import cn.letsky.movie.entity.Category;
 import cn.letsky.movie.exception.EntityNotFoundException;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/categories")
+@RequestMapping("/api/categories")
 @CrossOrigin(value = "*", allowCredentials = "true")
 public class CategoryController {
 

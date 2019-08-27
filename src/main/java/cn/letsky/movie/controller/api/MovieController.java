@@ -1,4 +1,4 @@
-package cn.letsky.movie.controller;
+package cn.letsky.movie.controller.api;
 
 import cn.letsky.movie.entity.Movie;
 import cn.letsky.movie.exception.EntityNotFoundException;
@@ -6,7 +6,6 @@ import cn.letsky.movie.form.MovieForm;
 import cn.letsky.movie.repository.MovieRepository;
 import cn.letsky.movie.service.MovieService;
 import cn.letsky.movie.service.RankService;
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +16,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/movies")
+@RequestMapping("/api/movies")
 @CrossOrigin(value = "*", allowCredentials = "true")
 public class MovieController {
 
@@ -35,12 +34,11 @@ public class MovieController {
     }
 
     @GetMapping
-    public ResponseEntity<PageInfo<Object>> getMovies(
+    public ResponseEntity<PageInfo<Movie>> getMovies(
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "size", defaultValue = "20") Integer size) {
-        PageInfo<Object> pageInfo = PageHelper.startPage(page, size)
-                .doSelectPageInfo(movieRepository::findAll);
-        return ResponseEntity.ok(pageInfo);
+        PageInfo<Movie> movies = movieService.getMovies(page, size);
+        return ResponseEntity.ok(movies);
     }
 
     @GetMapping("/{id}")
@@ -54,9 +52,8 @@ public class MovieController {
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "size", defaultValue = "20") Integer size,
             @RequestParam("categoryId") Integer categoryId) {
-        PageInfo<Object> pageInfo = PageHelper.startPage(page, size)
-                .doSelectPageInfo(() -> movieRepository.findAllByCategoryId(categoryId));
-        return ResponseEntity.ok(pageInfo);
+        PageInfo<Movie> movies = movieService.getCategoryMovies(categoryId, page, size);
+        return ResponseEntity.ok(movies);
     }
 
     @GetMapping("/released")
@@ -68,7 +65,6 @@ public class MovieController {
     @PostMapping
     public ResponseEntity addMovie(
             @RequestBody @Valid MovieForm movieForm, BindingResult bindingResult) {
-        System.out.println(movieForm.getPoster());
         Movie movie = new Movie();
         BeanUtils.copyProperties(movieForm, movie);
         movieService.add(movie, movieForm.getCategoryIds());
@@ -93,7 +89,7 @@ public class MovieController {
     @GetMapping("/{movieId}/ranks")
     public ResponseEntity getRankScore(@PathVariable Integer movieId) {
         //TODO 返回的数据格式有误
-        Double avgScore = rankService.getAvg(movieId);
+        Double avgScore = rankService.getAvgScore(movieId);
         return ResponseEntity.ok(avgScore);
     }
 }

@@ -1,6 +1,7 @@
 package cn.letsky.movie.repository;
 
 import cn.letsky.movie.entity.Rank;
+import cn.letsky.movie.vo.RankVO;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -19,6 +20,15 @@ public interface RankRepository {
 
     @Select("SELECT * FROM `rank`")
     List<Rank> findAll();
+
+    /**
+     * 评分前6
+     *
+     * @return
+     */
+    @Select("SELECT id, user_id, movie_id, AVG(score) AS score " +
+            "FROM `rank` GROUP BY movie_id ORDER BY score DESC LIMIT 0, 6")
+    List<RankVO> findAllTop();
 
     @Insert("INSERT INTO `rank` (user_id, movie_id, score) " +
             "VALUES (#{userId}, #{movieId}, #{score})")

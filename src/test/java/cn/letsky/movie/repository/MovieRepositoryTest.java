@@ -20,6 +20,9 @@ public class MovieRepositoryTest {
     @Autowired
     private MovieRepository repository;
 
+    @Autowired
+    private CategoryRepository categoryRepository;
+
     //test insert
     @Test
     public void test1() {
@@ -84,5 +87,32 @@ public class MovieRepositoryTest {
         System.out.println(all);
         System.out.println(all.size());
         assertNotEquals(0, all.size());
+    }
+
+    //insert many data
+//    @Test
+//    public void test8() {
+//        Random random = new Random();
+//        for (int i = 0; i < 100000; i++) {
+//            Movie movie = Movie.builder()
+//                    .name(RandomStringUtils.randomAlphabetic(10))
+//                    .actors(RandomStringUtils.randomAlphabetic(4))
+//                    .directors(RandomStringUtils.randomAlphabetic(3))
+//                    .country(RandomStringUtils.randomAlphabetic(8))
+//                    .duration(random.nextInt(150))
+//                    .plot(RandomStringUtils.randomAlphabetic(80))
+//                    .status((RandomUtils.nextBoolean() ? "on" : "off"))
+//                    .build();
+//            repository.insert(movie);
+//            int movieId = movie.getId();
+//            categoryRepository.insertRelationship(movieId, RandomUtils.nextInt(1, 4));
+//        }
+//    }
+
+    @Test
+    public void test9() {
+        List<Movie> movies = repository.findLimitByStatus(MovieStatus.ON, 6);
+        System.out.println(movies);
+        assertNotEquals(0, movies.size());
     }
 }

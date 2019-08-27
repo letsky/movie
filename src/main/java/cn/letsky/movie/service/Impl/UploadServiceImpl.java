@@ -1,9 +1,9 @@
 package cn.letsky.movie.service.Impl;
 
+import cn.letsky.movie.configure.UploadProperties;
 import cn.letsky.movie.exception.GlobalException;
 import cn.letsky.movie.service.UploadService;
 import cn.letsky.movie.util.ImageUtils;
-import cn.letsky.movie.util.UploadProperties;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -37,8 +37,9 @@ public class UploadServiceImpl implements UploadService {
         }
         String filename = ImageUtils.generateFilename() + suffix;
         String path = properties.getUploadPosition() + File.separator + filename;
+        String url = properties.getSuffix() + filename;
         multipartFile.transferTo(new File(path));
-        return path;
+        return url;
     }
 
 }

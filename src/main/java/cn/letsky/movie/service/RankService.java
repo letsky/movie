@@ -6,5 +6,5 @@ public interface RankService {
 
     void add(Rank rank);
 
-    Double getAvg(Integer movieId);
+    Double getAvgScore(Integer movieId);
 }

@@ -1,19 +1,15 @@
-package cn.letsky.movie.entity;
+package cn.letsky.movie.vo;
 
-import cn.letsky.movie.constrant.MovieStatus;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
-import java.util.List;
 
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Movie {
+public class MovieVO {
 
     private Integer id;
 
@@ -58,7 +54,15 @@ public class Movie {
      * 电影状态 上映/下映
      * {@link cn.letsky.movie.constrant.MovieStatus}
      */
-    private Integer status = MovieStatus.OFF;
+    private Integer status;
 
-    private List<Category> categories;
+    /**
+     * 类别
+     */
+    private String categories;
+
+    /**
+     * 评分
+     */
+    private Double score;
 }

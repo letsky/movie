@@ -11,13 +11,13 @@
       <section class="container">
         <div class="col-sm-12">
           <div class="movie">
-            <h2 class="page-heading">The Hobbit: An Unexpected Journey</h2>
+            <h2 class="page-heading" th:text="${movie.name}">The Hobbit: An Unexpected Journey</h2>
 
             <div class="movie__info">
               <div class="col-sm-4 col-md-3 movie-mobile">
                 <div class="movie__images">
                   <span class="movie__rating">5.0</span>
-                  <img alt="" src="http://placehold.it/526x773" />
+                  <img th:src="${movie.poster}" alt="" src="http://placehold.it/526x773"/>
                 </div>
                 <div class="movie__rate">
                   Your vote:
@@ -26,42 +26,33 @@
               </div>
 
               <div class="col-sm-8 col-md-9">
-                <p class="movie__time">169 min</p>
+                <p class="movie__time" th:text="${movie.duration}">169 min</p>
 
                 <p class="movie__option">
-                  <strong>国家: </strong><a href="#">New Zeland</a>,
+                  <strong>国家: </strong><a href="#" th:text="${movie.country}">New Zeland</a>,
                   <a href="#">USA</a>
                 </p>
                 <p class="movie__option">
-                  <strong>年份: </strong><a href="#">2012</a>
+                  <strong>类别: </strong>
+                  <a style="margin-right: 2px" th:each="category : ${movie.categories}" th:text="${category.name}"
+                     href="#">Adventure</a>
                 </p>
                 <p class="movie__option">
-                  <strong>类别: </strong><a href="#">Adventure</a>,
-                  <a href="#">Fantazy</a>
+                  <strong>上映日期: </strong>
+                  <span th:text="${#dates.format(movie.releaseDate, 'yyyy-MM-DD')}"></span>
                 </p>
                 <p class="movie__option">
-                  <strong>上映日期: </strong>December 12, 2012
-                </p>
-                <p class="movie__option">
-                  <strong>导演: </strong><a href="#">Peter Jackson</a>
+                  <strong>导演: </strong>
+                  <a href="#" th:text="${movie.directors}">Peter Jackson</a>
                 </p>
                 <p class="movie__option">
                   <strong>演员: </strong>
-                  <a href="#">Martin Freeman</a>,
-                  <a href="#">Ian McKellen</a>,
-                  <a href="#">Richard Armitage</a>,
-                  <a href="#">Ken Stott</a>,
-                  <a href="#">Graham McTavish</a>,
-                  <a href="#">Cate Blanchett</a>,
-                  <a href="#">Hugo Weaving</a>,
-                  <a href="#">Ian Holm</a>,
-                  <a href="#">Elijah Wood</a>
-                  <a href="#">...</a>
-
+                  <a href="#" th:text="${movie.actors}">Martin Freeman</a>
+                </p>
                 <a href="#" class="comment-link">评论: 15</a>
 
                 <div class="movie__btns movie__btns--full">
-                  <a href="#" class="btn btn-md btn--warning">预订此电影</a>
+                  <a th:if="${movie.status eq 1}" href="#" class="btn btn-md btn--warning">预订此电影</a>
                   <a href="#" class="watchlist">添加到播放列表</a>
                 </div>
               </div>
@@ -71,7 +62,7 @@
 
             <h2 class="page-heading">剧情</h2>
 
-            <p class="movie__describe">
+            <p class="movie__describe" th:text="${movie.plot}">
               Bilbo Baggins is swept into a quest to reclaim the lost Dwarf
               Kingdom of Erebor from the fearsome dragon Smaug. Approached out
               of the blue by the wizard Gandalf the Grey, Bilbo finds himself

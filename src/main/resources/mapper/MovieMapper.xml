@@ -37,6 +37,12 @@
         FROM `movie`
         WHERE status = #{status}
     </select>
+    <select id="findLimitByStatus" resultMap="movieResult">
+        SELECT *
+        FROM `movie`
+        WHERE status = #{status}
+        LIMIT 0, #{size}
+    </select>
     <update id="update" parameterType="Movie">
         UPDATE `movie`
         <set>

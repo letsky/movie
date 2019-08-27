@@ -36,7 +36,7 @@ public class RankServiceImpl implements RankService {
     }
 
     @Override
-    public Double getAvg(Integer movieId) {
+    public Double getAvgScore(Integer movieId) {
         movieService.check(movieId);
         return rankRepository.findScoreByMovieId(movieId);
     }

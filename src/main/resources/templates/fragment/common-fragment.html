@@ -49,8 +49,8 @@
 <header th:fragment="header" class="header-wrapper">
     <div class="container">
         <!-- Logo link-->
-        <a href="index.html" class="logo">
-            <img alt="logo" src="images/logo.png"/>
+        <a href="/index" class="logo">
+            <img alt="logo" src="images/logo.png" th:src="@{/images/logo.png}"/>
         </a>
 
         <!-- Main website navigation-->
@@ -72,34 +72,37 @@
             <ul id="navigation">
                 <li>
                     <span class="sub-nav-toggle plus"></span>
-                    <a href="movie-list.html">全部电影</a>
+                    <a href="/movies">全部电影</a>
                 </li>
                 <li>
                     <span class="sub-nav-toggle plus"></span>
-                    <a href="rate.html">排行榜</a>
+                    <a href="/ranks">排行榜</a>
                 </li>
                 <li>
                     <span class="sub-nav-toggle plus"></span>
-                    <a href="news-list.html">资讯</a>
+                    <a href="/news">资讯</a>
                 </li>
             </ul>
         </nav>
 
         <!-- Additional header buttons / Auth and direct link to booking-->
         <div class="control-panel">
-            <div class="auth auth--home">
+            <div th:if="${session.user != null}" class="auth auth--home">
                 <div class="auth__show">
                 </div>
-                <a href="#" class="btn btn--sign btn--singin">
-                    me
-                </a>
+                <a th:text="${session.nickname}" href="#" class="btn btn--sign btn--singin">用户</a>
                 <ul class="auth__function">
-                    <li><a href="/watchlist.html" class="auth__function-item">观看列表</a></li>
-                    <li><a href="/ticket.html" class="auth__function-item">已预定的电影票</a></li>
-                    <li><a href="" class="auth__function-item">退出登录</a></li>
+                    <li><a href="/watchlist" class="auth__function-item">观看列表</a></li>
+                    <li><a href="/ticket" class="auth__function-item">已预定的电影票</a></li>
+                    <li><a id="logout" class="auth__function-item">退出登录</a></li>
                 </ul>
             </div>
-            <a href="#" class="btn btn-md btn--warning btn--book btn-control--home login-window">预订</a>
+
+            <a th:if="${session.user == null}" href="#"
+               class="btn btn-md btn--warning btn--book btn-control--home login-window">登录</a>
+            <a th:if="${session.user == null}" th:href="@{/register}" href="#"
+               class="btn btn-md btn--warning btn--book">注册</a>
+            <a th:unless="${session.user == null}" href="#" class="btn btn-md btn--warning btn--book">预定</a>
         </div>
     </div>
 </header>
@@ -109,17 +112,17 @@
     <section class="container">
         <div class="col-xs-4 col-md-2 footer-nav">
             <ul class="nav-link">
-                <li><a href="movie-list.html" class="nav-link__item">电影</a></li>
-                <li><a href="rate.html" class="nav-link__item">评分</a></li>
-                <li><a href="news-list.html" class="nav-link__item">资讯</a></li>
+                <li><a href="/movies" class="nav-link__item">电影</a></li>
+                <li><a href="/ranks" class="nav-link__item">评分</a></li>
+                <li><a href="/news" class="nav-link__item">资讯</a></li>
             </ul>
         </div>
         <div class="col-xs-4 col-md-2 footer-nav">
             <ul class="nav-link">
                 <li><a href="#" class="nav-link__item">Terms of use</a></li>
-                <li><a href="gallery-four.html" class="nav-link__item">Gallery</a></li>
-                <li><a href="contact.html" class="nav-link__item">Contacts</a></li>
-                <li><a href="page-elements.html" class="nav-link__item">Shortcodes</a></li>
+                <li><a href="#" class="nav-link__item">Gallery</a></li>
+                <li><a href="#" class="nav-link__item">Contacts</a></li>
+                <li><a href="#" class="nav-link__item">Shortcodes</a></li>
             </ul>
         </div>
         <div class="col-xs-12 col-md-6">
@@ -146,31 +149,26 @@
     <section class="container">
         <div class="col-sm-4 col-sm-offset-4">
             <button type="button" class="overlay-close">Close</button>
-            <form id="login-form" class="login" method="get" novalidate="">
+            <form id="login-form" class="login" method="post" action="/api/users/login">
                 <p class="login__title">登录 <br/>
                     <span class="login-edition">欢迎来到 A.Movie</span>
                 </p>
 
                 <div class="field-wrap">
                     <input
+                            id="email"
                             type="email"
                             placeholder="邮箱"
                             name="email"
                             class="login__input"
                     />
                     <input
+                            id="password"
                             type="password"
                             placeholder="密码"
                             name="password"
                             class="login__input"
                     />
-
-                    <input
-                            type="checkbox"
-                            id="#informed"
-                            class="login__check styled"
-                    />
-                    <label for="#informed" class="login__check-info">记住登录状态</label>
                 </div>
 
                 <div class="login__control">

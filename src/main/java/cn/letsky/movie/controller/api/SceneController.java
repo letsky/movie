@@ -1,4 +1,4 @@
-package cn.letsky.movie.controller;
+package cn.letsky.movie.controller.api;
 
 import cn.letsky.movie.entity.Movie;
 import cn.letsky.movie.entity.Scene;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/scenes")
+@RequestMapping("/api/scenes")
 @CrossOrigin(value = "*", allowCredentials = "true")
 public class SceneController {
 
