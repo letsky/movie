@@ -21,54 +21,16 @@
                   <colgroup class="col-width-sm"></colgroup>
                   <colgroup class="col-width"></colgroup>
 
-                  <tr class="rates rates--top">
+                  <tr th:each="movie : ${top}" class="rates">
                     <td class="rates__obj">
-                      <a href="#" class="rates__obj-name"
+                      <a th:href="@{/movie(id=${movie.id})}" th:text="${movie.name}" href="#" class="rates__obj-name"
                         >1. Thor: The Dark World</a
                       >
                     </td>
-                    <td class="rates__vote">233 546 评分</td>
-                    <td class="rates__result">5.0</td>
-                    <td class="rates__stars"><div class="score"></div></td>
+                    <td class="rates__vote"><span th:text="${movie.num}"></span><span>人评分</span></td>
+                    <td class="rates__result"><span th:text="${movie.score}"></span></td>
                   </tr>
 
-                  <tr class="rates rates--top">
-                    <td class="rates__obj">
-                      <a href="#" class="rates__obj-name">2. The Book Thief</a>
-                    </td>
-                    <td class="rates__vote">163 546 评分</td>
-                    <td class="rates__result">5.0</td>
-                    <td class="rates__stars"><div class="score"></div></td>
-                  </tr>
-
-                  <tr class="rates rates--top">
-                    <td class="rates__obj">
-                      <a href="#" class="rates__obj-name">3. How I Live Now</a>
-                    </td>
-                    <td class="rates__vote">843 546 votes</td>
-                    <td class="rates__result">4.9</td>
-                    <td class="rates__stars"><div class="score"></div></td>
-                  </tr>
-
-                  <tr class="rates">
-                    <td class="rates__obj">
-                      <a href="#" class="rates__obj-name"
-                        >4. The Armstrong Lie</a
-                      >
-                    </td>
-                    <td class="rates__vote">3 598 votes</td>
-                    <td class="rates__result">4.9</td>
-                    <td class="rates__stars"><div class="score"></div></td>
-                  </tr>
-
-                  <tr class="rates">
-                    <td class="rates__obj">
-                      <a href="#" class="rates__obj-name">5. Ender's Game</a>
-                    </td>
-                    <td class="rates__vote">14 641 votes</td>
-                    <td class="rates__result">4.8</td>
-                    <td class="rates__stars"><div class="score"></div></td>
-                  </tr>
                 </table>
               </div>
 

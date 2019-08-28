@@ -20,6 +20,9 @@ public interface ReviewRepository {
     @Select("SELECT * FROM `review`")
     List<Review> findAll();
 
+    @Select("SELECT COUNT(*) FROM `review` WHERE movie_id = #{movieId}")
+    Long count(Integer movieId);
+
     @Insert("INSERT into `review` (content, movie_id, user_id, create_time)" +
             "VALUES (#{content}, #{movieId}, #{userId}, #{createTime})")
     int insert(Review review);

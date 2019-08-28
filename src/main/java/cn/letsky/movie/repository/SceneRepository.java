@@ -17,6 +17,9 @@ public interface SceneRepository {
     @Select("SELECT * FROM `scene` WHERE id = #{id}")
     Optional<Scene> findById(Integer id);
 
+    @Select("SELECT * FROM `scene` WHERE movie_id = #{movieId}")
+    List<Scene> findByMovieId(Integer movieId);
+
     @Select("SELECT * FROM `scene`")
     List<Scene> findAll();
 

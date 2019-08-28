@@ -32,7 +32,7 @@
         SELECT *
         FROM movie
     </select>
-    <select id="findAllByStatus" parameterType="String" resultMap="movieResult">
+    <select id="findAllByStatus" parameterType="int" resultMap="movieResult">
         SELECT *
         FROM `movie`
         WHERE status = #{status}

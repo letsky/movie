@@ -44,6 +44,9 @@
                         <li class="item-wrap">
                             <a th:href="@{/movies}" href="#" class="tags__item">所有</a>
                         </li>
+                        <li class="item-wrap">
+                            <a th:href="@{/movies(status=1)}" href="#" class="tags__item">正在上映</a>
+                        </li>
                         <li class="item-wrap" th:each="category : ${categories}">
                             <a th:href="@{/movies(categoryId=${category.id})}" th:text="${category.name}" href="#"
                                class="tags__item">category</a>
@@ -91,7 +94,7 @@
                         <strong>演员: </strong><span th:text="${movie.actors}">Robert De Niro</span>
                     </p>
 
-                    <div class="movie__btns">
+                    <div th:if="${session.user != null}" class="movie__btns">
                         <a th:if="${movie.status eq 1}" href="#" class="btn btn-md btn--warning">预订此电影</a>
                         <a href="#" class="watchlist">添加到播放列表</a>
                     </div>

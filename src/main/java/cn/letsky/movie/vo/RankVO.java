@@ -16,4 +16,9 @@ public class RankVO {
     private Integer movieId;
 
     private Double score;
+
+    /**
+     * 评分人数
+     */
+    private Integer num;
 }

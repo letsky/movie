@@ -64,7 +64,7 @@ public class RankRepositoryTest {
 
     @Test
     public void test7() {
-        List<RankVO> allTop = rankRepository.findAllTop();
+        List<RankVO> allTop = rankRepository.findLimitTop(6);
         System.out.println(allTop);
         assertNotEquals(0, allTop.size());
     }

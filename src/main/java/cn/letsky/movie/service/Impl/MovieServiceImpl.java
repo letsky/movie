@@ -6,11 +6,14 @@ import cn.letsky.movie.exception.EntityNotFoundException;
 import cn.letsky.movie.repository.CategoryRepository;
 import cn.letsky.movie.repository.MovieRepository;
 import cn.letsky.movie.repository.RankRepository;
+import cn.letsky.movie.repository.ReviewRepository;
 import cn.letsky.movie.service.MovieService;
 import cn.letsky.movie.util.CommonUtils;
+import cn.letsky.movie.vo.MovieVO;
 import cn.letsky.movie.vo.RankVO;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,13 +27,15 @@ public class MovieServiceImpl implements MovieService {
     private final MovieRepository movieRepository;
     private final CategoryRepository categoryRepository;
     private final RankRepository rankRepository;
+    private final ReviewRepository reviewRepository;
 
     public MovieServiceImpl(
             MovieRepository movieRepository, CategoryRepository categoryRepository,
-            RankRepository rankRepository) {
+            RankRepository rankRepository, ReviewRepository reviewRepository) {
         this.movieRepository = movieRepository;
         this.categoryRepository = categoryRepository;
         this.rankRepository = rankRepository;
+        this.reviewRepository = reviewRepository;
     }
 
     @Override
@@ -95,11 +100,25 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public List<Movie> getTopMovies() {
-        List<RankVO> allTop = rankRepository.findAllTop();
-        List<Movie> collect = allTop.stream()
-                .map(e -> movieRepository.findById(e.getMovieId())
-                        .orElseThrow(EntityNotFoundException::new))
+    public PageInfo<Movie> getMoviesByStatus(Integer status, Integer page) {
+        return PageHelper.startPage(page, 20).doSelectPageInfo(() -> movieRepository.findAllByStatus(status));
+    }
+
+    @Override
+    public List<MovieVO> getTopMovies(int size) {
+        List<RankVO> allTop = rankRepository.findLimitTop(size);
+        List<MovieVO> collect = allTop.stream()
+                .map(e -> {
+                    Movie movie = movieRepository.findById(e.getMovieId())
+                            .orElseThrow(EntityNotFoundException::new);
+                    Long reviewNum = reviewRepository.count(e.getMovieId());
+                    MovieVO movieVO = new MovieVO();
+                    BeanUtils.copyProperties(movie, movieVO);
+                    movieVO.setScore(e.getScore());
+                    movieVO.setNum(e.getNum());
+                    movieVO.setReviewNum(reviewNum);
+                    return movieVO;
+                })
                 .collect(Collectors.toList());
         return collect;
     }

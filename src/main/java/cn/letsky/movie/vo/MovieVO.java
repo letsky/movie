@@ -65,4 +65,14 @@ public class MovieVO {
      * 评分
      */
     private Double score;
+
+    /**
+     * 评分人数
+     */
+    private Integer num;
+
+    /**
+     * 评论数
+     */
+    private Long reviewNum;
 }

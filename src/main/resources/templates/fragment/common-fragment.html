@@ -102,7 +102,6 @@
                class="btn btn-md btn--warning btn--book btn-control--home login-window">登录</a>
             <a th:if="${session.user == null}" th:href="@{/register}" href="#"
                class="btn btn-md btn--warning btn--book">注册</a>
-            <a th:unless="${session.user == null}" href="#" class="btn btn-md btn--warning btn--book">预定</a>
         </div>
     </div>
 </header>

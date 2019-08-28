@@ -28,56 +28,7 @@ $(function () {
         });
     }
 
-    $('#contact-form').submit(function (e) {
-
-        e.preventDefault();
-        var error = 0;
-        var self = $(this);
-
-        var $name = self.find('[name=user-name]');
-        var $email = self.find('[type=email]');
-        var $message = self.find('[name=user-message]');
-
-
-        var emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-
-        if (!emailRegex.test($email.val())) {
-            createErrTult('Error! Wrong email!', $email);
-            error++;
-        }
-
-        if ($name.val().length > 1 && $name.val() != $name.attr('placeholder')) {
-            $name.removeClass('invalid_field');
-        } else {
-            createErrTult('Error! Write your name!', $name);
-            error++;
-        }
-
-        if ($message.val().length > 2 && $message.val() != $message.attr('placeholder')) {
-            $message.removeClass('invalid_field');
-        } else {
-            createErrTult('Error! Write message!', $message);
-            error++;
-        }
-
-
-        if (error != 0) return;
-        self.find('[type=submit]').attr('disabled', 'disabled');
-
-        self.children().fadeOut(300, function () {
-            $(this).remove()
-        });
-        $('<p class="success"><span class="success-huge">Thank you!</span> <br> your message successfully sent</p>').appendTo(self)
-            .hide().delay(300).fadeIn();
-
-
-        var formInput = self.serialize();
-        $.post(self.attr('action'), formInput, function (data) {
-        }); // end post
-    }); // end submit
-
     $('.login').submit(function (e) {
-
         e.preventDefault();
         var error = 0;
         var self = $(this);
@@ -104,7 +55,7 @@ $(function () {
             password: $('#password').val()
         };
 
-        console.log(data)
+        console.log(data);
 
         $.ajax({
             url: '/api/users/login',
@@ -123,16 +74,24 @@ $(function () {
                     alert("账号或密码错误");
                 },
                 200: function () {
-                    alert("登录成功");
                     window.location.href = "/index";
                 }
             }
         })
         // end post
-        // var formInput = self.serialize();
-        // $.post(self.attr('action'),formInput, function(data){}); // end post
     }); // end submit
 
+    $('#logout').click(function () {
+        $.ajax({
+            url: "/api/users/logout",
+            method: 'POST',
+            contentType: 'application/json;charset=utf-8',
+            success: function () {
+                alert("退出登录");
+                window.location.href = "/index";
+            }
+        })
+    });
 
     function createErrTult(text, $elem) {
         $elem.focus();
@@ -148,16 +107,4 @@ $(function () {
             })
         });
     }
-
-    $('#logout').click(function () {
-        $.ajax({
-            url: "/api/users/logout",
-            method: 'POST',
-            contentType: 'application/json;charset=utf-8',
-            success: function () {
-                alert("退出登录");
-                window.location.href = "/index";
-            }
-        })
-    })
 });
