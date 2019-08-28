@@ -2,7 +2,6 @@ package cn.letsky.movie.repository;
 
 import cn.letsky.movie.entity.Rank;
 import cn.letsky.movie.exception.EntityNotFoundException;
-import cn.letsky.movie.vo.RankVO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,10 +61,4 @@ public class RankRepositoryTest {
         assertEquals(1, result);
     }
 
-    @Test
-    public void test7() {
-        List<RankVO> allTop = rankRepository.findLimitTop(6);
-        System.out.println(allTop);
-        assertNotEquals(0, allTop.size());
-    }
 }

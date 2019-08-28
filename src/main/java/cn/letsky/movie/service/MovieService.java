@@ -11,15 +11,15 @@ public interface MovieService {
     /**
      * 添加电影
      *
-     * @param movie
-     * @param categoryIds
+     * @param movie 电影实体
+     * @param categoryIds 类别
      */
     void add(Movie movie, Integer[] categoryIds);
 
     /**
      * 更新电影
-     * @param movie
-     * @param categoryIds
+     * @param movie 电影实体
+     * @param categoryIds 类别
      */
     void update(Movie movie, Integer[] categoryIds);
 
@@ -37,50 +37,43 @@ public interface MovieService {
     Movie getMovie(Integer id);
 
     /**
-     * 获取上映的电影
-     *
-     * @return
-     */
-    List<Movie> getReleasedMovie();
-
-    /**
-     * 获取上映的电影
-     * @param size
-     * @return
-     */
-    List<Movie> getReleasedMovie(int size);
-
-    /**
-     * 获取全部电影
+     * 获取全部电影，分页
      * @param page
-     * @param size
      * @return
      */
     PageInfo<Movie> getMovies(Integer page, Integer size);
 
     /**
-     * 获取全部电影
-     * @param page
+     * 获取全部电影，不分页
      * @return
      */
-    PageInfo<Movie> getMovies(Integer page);
+    List<Movie> getMovies();
 
     /**
      * 根据电影状态获取电影
      *
      * @param status
      * @param page
+     * @param size
      * @return
      */
-    PageInfo<Movie> getMoviesByStatus(Integer status, Integer page);
+    PageInfo<Movie> getMoviesByStatus(Integer status, Integer page, Integer size);
 
     /**
-     * 获取评分最高的电影
+     * 根据电影状态
      *
+     * @param status
+     * @return
+     */
+    List<Movie> getMoviesByStatus(Integer status);
+
+    /**
+     * 获取评分最高的电影，分页
+     * @param page
      * @param size
      * @return
      */
-    List<MovieVO> getTopMovies(int size);
+    List<MovieVO> getTopMovies(Integer page, Integer size);
 
     /**
      * 根据类别获取电影
@@ -89,15 +82,14 @@ public interface MovieService {
      * @param size
      * @return
      */
-    PageInfo<Movie> getCategoryMovies(Integer categoryId, Integer page, Integer size);
+    PageInfo<Movie> getMoviesByCategory(Integer categoryId, Integer page, Integer size);
 
     /**
      * 根据类别获取电影
      * @param categoryId
-     * @param page
      * @return
      */
-    PageInfo<Movie> getCategoryMovies(Integer categoryId, Integer page);
+    List<Movie> getMoviesByCategory(Integer categoryId);
 
     /**
      * 检查电影是否存在，不存在抛出<code>EntityNotFoundException</code>异常

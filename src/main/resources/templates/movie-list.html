@@ -59,13 +59,17 @@
             <div th:each="movie : ${movies.getList()}" class="movie movie--preview movie--full release">
                 <div class="col-sm-3 col-md-2 col-lg-2">
                     <div class="movie__images">
-                        <img th:if="${movie.poster != null}" th:src="${movie.poster}" alt=""
-                             src="http://placehold.it/380x600"/>
+                        <a th:href="@{/movie(id=${movie.id})}" href=""><img th:if="${movie.poster != null}"
+                                                                            th:src="${movie.poster}"
+                                                                            th:alt="${movie.name}" alt=""
+                                                                            src="http://placehold.it/380x600"/></a>
                         <img th:unless="${movie.poster != null}" alt="暂无图片" src="http://placehold.it/380x600"/>
                     </div>
                     <!-- 评论数 -->
                     <div class="movie__feature">
-                        <a href="#" class="movie__feature-item movie__feature--comment">123</a>
+                        <p th:if="${movie.reviewNum eq 0}" class="movie__feature-item movie__feature--comment">暂无评论</p>
+                        <p th:unless="${movie.reviewNum eq 0}" class="movie__feature-item movie__feature--comment">
+                            <span>评论数：</span><span th:text="${movie.reviewNum}"></span></p>
                     </div>
                 </div>
 

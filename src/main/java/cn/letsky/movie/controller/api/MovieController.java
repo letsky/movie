@@ -1,5 +1,6 @@
 package cn.letsky.movie.controller.api;
 
+import cn.letsky.movie.constrant.MovieStatus;
 import cn.letsky.movie.entity.Movie;
 import cn.letsky.movie.exception.EntityNotFoundException;
 import cn.letsky.movie.form.MovieForm;
@@ -52,13 +53,13 @@ public class MovieController {
             @RequestParam(value = "page", defaultValue = "1") Integer page,
             @RequestParam(value = "size", defaultValue = "20") Integer size,
             @RequestParam("categoryId") Integer categoryId) {
-        PageInfo<Movie> movies = movieService.getCategoryMovies(categoryId, page, size);
+        PageInfo<Movie> movies = movieService.getMoviesByCategory(categoryId, page, size);
         return ResponseEntity.ok(movies);
     }
 
     @GetMapping("/released")
     public ResponseEntity getReleasedMovies() {
-        List<Movie> releasedMovie = movieService.getReleasedMovie();
+        List<Movie> releasedMovie = movieService.getMoviesByStatus(MovieStatus.ON);
         return ResponseEntity.ok(releasedMovie);
     }
 

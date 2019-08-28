@@ -32,4 +32,7 @@ public interface ReviewRepository {
 
     @Delete("DELETE FROM `review` WHERE id = #{id}")
     int delete(Integer id);
+
+    @Delete("DELETE FROM `review` WHERE movie_id = #{movieId}")
+    int deleteByMovieId(Integer movieId);
 }

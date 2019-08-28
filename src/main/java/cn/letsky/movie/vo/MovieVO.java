@@ -1,10 +1,12 @@
 package cn.letsky.movie.vo;
 
+import cn.letsky.movie.entity.Category;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -59,7 +61,7 @@ public class MovieVO {
     /**
      * 类别
      */
-    private String categories;
+    private List<Category> categories;
 
     /**
      * 评分

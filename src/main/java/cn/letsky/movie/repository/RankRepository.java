@@ -21,14 +21,13 @@ public interface RankRepository {
     @Select("SELECT * FROM `rank`")
     List<Rank> findAll();
 
-    /**
-     * 评分最高的评分
-     *
-     * @return
-     */
     @Select("SELECT movie_id, AVG(score) AS score, count(*) as num " +
-            "FROM `rank` GROUP BY movie_id ORDER BY score DESC LIMIT 0, #{size}")
-    List<RankVO> findLimitTop(Integer size);
+            "FROM `rank` WHERE movie_id = #{movieId}")
+    Optional<RankVO> findByMovieId(Integer movieId);
+
+    @Select("SELECT movie_id, AVG(score) AS score, count(*) as num " +
+            "FROM `rank` GROUP BY movie_id ORDER BY score DESC")
+    List<RankVO> findAllOrderByScore();
 
     @Insert("INSERT INTO `rank` (user_id, movie_id, score) " +
             "VALUES (#{userId}, #{movieId}, #{score})")

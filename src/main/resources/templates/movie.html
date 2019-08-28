@@ -16,7 +16,8 @@
                 <div class="movie__info">
                     <div class="col-sm-4 col-md-3 movie-mobile">
                         <div class="movie__images">
-                            <span class="movie__rating">5.0</span>
+                            <span th:if="${movie.score != null}" th:text="${movie.score}"
+                                  class="movie__rating">5.0</span>
                             <img th:src="${movie.poster}" alt="" src="http://placehold.it/526x773"/>
                         </div>
                         <div class="movie__rate">
@@ -26,7 +27,7 @@
                     </div>
 
                     <div class="col-sm-8 col-md-9">
-                        <p class="movie__time" th:text="${movie.duration}">169 min</p>
+                        <p class="movie__time"><span th:text="${movie.duration}"></span><span>&nbsp;分钟</span></p>
 
                         <p class="movie__option">
                             <strong>国家: </strong><a href="#" th:text="${movie.country}">New Zeland</a>,
@@ -40,7 +41,7 @@
                         </p>
                         <p class="movie__option">
                             <strong>上映日期: </strong>
-                            <span th:text="${#dates.format(movie.releaseDate, 'yyyy-MM-DD')}"></span>
+                            <span th:text="${#dates.format(movie.releaseDate, 'yyyy-MM-dd')}"></span>
                         </p>
                         <p class="movie__option">
                             <strong>导演: </strong>
@@ -50,7 +51,6 @@
                             <strong>演员: </strong>
                             <a href="#" th:text="${movie.actors}">Martin Freeman</a>
                         </p>
-                        <a href="#" class="comment-link">评论: 15</a>
 
                         <div th:if="${session.user != null}" class="movie__btns movie__btns--full">
                             <a th:if="${movie.status eq 1}" href="#" class="btn btn-md btn--warning">预订此电影</a>
@@ -103,7 +103,7 @@
                     </div>
                 </div>
 
-                <h2 class="page-heading">评论 (15)</h2>
+                <h2 class="page-heading"><span>评论数：</span><span th:text="${movie.reviewNum}"></span></h2>
 
                 <div class="comment-wrapper">
                     <form th:if="${session.user != null}" id="comment-form" class="comment-form" method="post">

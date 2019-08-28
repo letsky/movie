@@ -1,11 +1,13 @@
 package cn.letsky.movie.service.Impl;
 
 import cn.letsky.movie.entity.Rank;
+import cn.letsky.movie.exception.EntityNotFoundException;
 import cn.letsky.movie.repository.RankRepository;
 import cn.letsky.movie.service.MovieService;
 import cn.letsky.movie.service.RankService;
 import cn.letsky.movie.service.UserService;
 import cn.letsky.movie.util.CommonUtils;
+import cn.letsky.movie.vo.RankVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,6 +41,12 @@ public class RankServiceImpl implements RankService {
     public Double getAvgScore(Integer movieId) {
         movieService.check(movieId);
         return rankRepository.findScoreByMovieId(movieId);
+    }
+
+    @Override
+    public RankVO getRankVO(Integer movieId) {
+        return rankRepository.findByMovieId(movieId)
+                .orElseThrow(EntityNotFoundException::new);
     }
 
 
