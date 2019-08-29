@@ -59,10 +59,12 @@
             <div th:each="movie : ${movies.getList()}" class="movie movie--preview movie--full release">
                 <div class="col-sm-3 col-md-2 col-lg-2">
                     <div class="movie__images">
-                        <a th:href="@{/movie(id=${movie.id})}" href=""><img th:if="${movie.poster != null}"
-                                                                            th:src="${movie.poster}"
-                                                                            th:alt="${movie.name}" alt=""
-                                                                            src="http://placehold.it/380x600"/></a>
+                        <a th:href="@{/movie(id=${movie.id})}" href="">
+                            <img th:if="${movie.poster != null}"
+                                 th:src="${movie.poster}"
+                                 th:alt="${movie.name}" alt=""
+                                 src="http://placehold.it/380x600"/>
+                        </a>
                         <img th:unless="${movie.poster != null}" alt="暂无图片" src="http://placehold.it/380x600"/>
                     </div>
                     <!-- 评论数 -->
@@ -105,9 +107,11 @@
 
                     <div class="preview-footer">
                         <div class="movie__rate">
-                            <div class="score"></div>
-                            <span class="movie__rate-number">166 <span>&nbsp;人评分</span></span>
-                            <span class="movie__rating">5.0</span>
+                            <span class="movie__rate-number" th:if="${movie.num eq 0}">暂无评分</span>
+                            <span class="movie__rate-number" th:unless="${movie.num eq 0}"><span
+                                    th:text="${movie.num}"></span> <span>&nbsp;人评分</span></span>
+                            <span class="movie__rating" th:if="${movie.score != null}"
+                                  th:text="${movie.score}">5.0</span>
                         </div>
                     </div>
                 </div>

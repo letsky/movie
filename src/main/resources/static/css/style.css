@@ -5217,7 +5217,7 @@ ul#navigation li.mega-menu__nav-item:hover:before {
   text-align: center;
   font-weight: bold;
   position: absolute;
-  top: 6px;
+    top: -2px;
   left: 6px;
 }
 .movie .movie__time {
