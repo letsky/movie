@@ -68,6 +68,13 @@ public interface MovieService {
     List<Movie> getMoviesByStatus(Integer status);
 
     /**
+     * 获取评分最高的电影
+     *
+     * @return
+     */
+    List<Movie> getTopMovies();
+
+    /**
      * 获取评分最高的电影，分页
      * @param page
      * @param size

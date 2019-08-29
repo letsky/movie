@@ -55,8 +55,6 @@ $(function () {
             password: $('#password').val()
         };
 
-        console.log(data);
-
         $.ajax({
             url: '/api/users/login',
             method: 'POST',
@@ -74,7 +72,7 @@ $(function () {
                     alert("账号或密码错误");
                 },
                 200: function () {
-                    window.location.href = "/index";
+                    location.reload();
                 }
             }
         })
@@ -93,18 +91,46 @@ $(function () {
         })
     });
 
-    function createErrTult(text, $elem) {
-        $elem.focus();
-        $('<p />', {
-            'class': 'inv-em alert alert-danger',
-            'html': '<span class="icon-warning"></span>' + text + ' <a class="close" data-dismiss="alert" href="#" aria-hidden="true"></a>',
+    $('.comment-form__btn').on('click', function (e) {
+        e.preventDefault();
+
+        var form = $('.comment-form').serializeObject();
+        console.log(form);
+
+        $.ajax({
+            url: '/api/review',
+            method: 'POST',
+            contentType: 'application/json',
+            dataType: 'json',
+            data: JSON.stringify(form),
+            success: function (e) {
+                console.log("success");
+                location.reload();
+            },
+            statusCode: {
+                400: function (e) {
+                    console.log("400")
+                },
+                404: function (e) {
+                    console.log("404")
+                },
+            }
         })
-            .appendTo($elem.addClass('invalid_field').parent())
-            .insertAfter($elem)
-            .delay(4000).animate({'opacity': 0}, 300, function () {
-            $(this).slideUp(400, function () {
-                $(this).remove()
-            })
+    });
+
+    $.fn.serializeObject = function () {
+        var o = {};
+        var a = this.serializeArray();
+        $.each(a, function () {
+            if (o[this.name]) {
+                if (!o[this.name].push) {
+                    o[this.name] = [o[this.name]];
+                }
+                o[this.name].push(this.value || '');
+            } else {
+                o[this.name] = this.value || '';
+            }
         });
-    }
+        return o;
+    };
 });

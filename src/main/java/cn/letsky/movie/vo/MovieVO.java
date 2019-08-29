@@ -58,6 +58,8 @@ public class MovieVO {
      */
     private Integer status;
 
+    private boolean hasAddWatchlist;
+
     /**
      * 类别
      */

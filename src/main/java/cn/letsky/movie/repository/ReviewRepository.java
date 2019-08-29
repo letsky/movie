@@ -1,6 +1,7 @@
 package cn.letsky.movie.repository;
 
 import cn.letsky.movie.entity.Review;
+import cn.letsky.movie.vo.ReviewVO;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -19,6 +20,10 @@ public interface ReviewRepository {
 
     @Select("SELECT * FROM `review`")
     List<Review> findAll();
+
+    @Select("SELECT r.*, u.nickname FROM `review` r LEFT JOIN user u " +
+            "ON r.user_id = u.id WHERE movie_id = #{movieId} ORDER BY create_time DESC")
+    List<ReviewVO> findAllByMovieId(Integer movieId);
 
     @Select("SELECT COUNT(*) FROM `review` WHERE movie_id = #{movieId}")
     Long count(Integer movieId);

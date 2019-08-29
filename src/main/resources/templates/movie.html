@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<div th:replace="~{/fragment/common-fragment :: head(电影名)}"></div>
+<div th:replace="~{/fragment/common-fragment :: head(${movie.name})}"></div>
 
 <body>
 <div class="wrapper">
@@ -106,34 +106,22 @@
                 <h2 class="page-heading"><span>评论数：</span><span th:text="${movie.reviewNum}"></span></h2>
 
                 <div class="comment-wrapper">
-                    <form th:if="${session.user != null}" id="comment-form" class="comment-form" method="post">
-                        <textarea class="comment-form__text" placeholder="发表您的评论吧"></textarea>
+                    <form th:if="${session.user != null}" class="comment-form">
+                        <input type="text" name="userId" th:value="${session.user}" hidden="hidden">
+                        <input type="text" name="movieId" th:value="${movie.id}" hidden="hidden">
+                        <textarea class="comment-form__text" name="content" placeholder="发表您的评论吧"></textarea>
                         <button type="submit" class="btn btn-md btn--danger comment-form__btn">
                             发表评论
                         </button>
                     </form>
 
-                    <div class="comment-sets">
+                    <div th:if="${!#lists.isEmpty(reviews)}" th:each="review : ${reviews}" class="comment-sets">
                         <!-- 评论 -->
                         <div class="comment">
-                            <a href="#" class="comment__author">Roberta Inetti</a>
-                            <p class="comment__date">today | 03:04</p>
-                            <p class="comment__message">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut
-                                vitae enim sollicitudin, euismod erat id, fringilla lacus.
-                                Cras ut rutrum lectus. Etiam ante justo, volutpat at viverra
-                                a, mattis in velit. Morbi molestie rhoncus enim, vitae
-                                sagittis dolor tristique et.
-                            </p>
-                            <a href="#" class="comment__reply">Reply</a>
-                        </div>
-                        <!-- 评论结束 -->
-
-                        <!-- 评论 -->
-                        <div class="comment">
-                            <a href="#" class="comment__author">Olia Gozha</a>
-                            <p class="comment__date">22.10.2013 | 14:40</p>
-                            <p class="comment__message">
+                            <a th:text="${review.nickname}" href="#" class="comment__author">Roberta Inetti</a>
+                            <p th:text="${#dates.format(review.createTime, 'yyyy-MM-dd HH:mm:ss')}"
+                               class="comment__date">today | 03:04</p>
+                            <p th:text="${review.content}" class="comment__message">
                                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut
                                 vitae enim sollicitudin, euismod erat id, fringilla lacus.
                                 Cras ut rutrum lectus. Etiam ante justo, volutpat at viverra

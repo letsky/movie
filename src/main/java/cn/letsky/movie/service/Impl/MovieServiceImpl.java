@@ -101,6 +101,12 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
+    public List<Movie> getTopMovies() {
+        rankRepository.findAllOrderByScore().stream();
+        return null;
+    }
+
+    @Override
     public List<MovieVO> getTopMovies(Integer page, Integer size) {
         List<MovieVO> collect = rankRepository.findAllOrderByScore()
                 .stream().map(e -> {

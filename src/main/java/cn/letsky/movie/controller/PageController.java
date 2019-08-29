@@ -13,6 +13,7 @@ import cn.letsky.movie.service.RankService;
 import cn.letsky.movie.service.SceneService;
 import cn.letsky.movie.vo.MovieVO;
 import cn.letsky.movie.vo.RankVO;
+import cn.letsky.movie.vo.ReviewVO;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.BeanUtils;
@@ -128,6 +129,8 @@ public class PageController {
 
         //TODO
         //init comments
+        List<ReviewVO> reviews = reviewRepository.findAllByMovieId(id);
+        model.addAttribute("reviews", reviews);
         return "movie";
     }
 
@@ -178,6 +181,7 @@ public class PageController {
         movieVO.setScore(rankVO.getScore());
         Long reviewNum = reviewRepository.count(movieId);
         movieVO.setReviewNum(reviewNum);
+
         return movieVO;
     }
 }

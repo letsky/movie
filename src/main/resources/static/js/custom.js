@@ -529,12 +529,6 @@ function init_MoviePage() {
         $(this).addClass('active');
     });
 
-    //10. Scroll down navigation function
-    //scroll down
-    $('.comment-link').click(function (ev) {
-        ev.preventDefault();
-        $('html, body').stop().animate({'scrollTop': $('.comment-wrapper').offset().top - 90}, 900, 'swing');
-    });
 }
 
 function init_Rates() {
