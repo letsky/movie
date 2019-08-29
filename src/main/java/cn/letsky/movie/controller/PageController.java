@@ -59,9 +59,9 @@ public class PageController {
         model.addAttribute("topMovies", topMovies);
 
         //init 8 released movies
-        List<Movie> releasedMovies = movieService
-                .getMoviesByStatus(MovieStatus.ON, 1, 8).getList();
-        model.addAttribute("releasedMovies", releasedMovies);
+        List<MovieVO> collect = movieService
+                .getMoviesByStatus(MovieStatus.ON, 1, 8).getList().stream().map(e -> transform(e)).collect(Collectors.toList());
+        model.addAttribute("releasedMovies", collect);
 
         //init 3 news
         List<News> news = newsService.getNews(3);
@@ -97,7 +97,12 @@ public class PageController {
 
         //init movies by category
         PageInfo<Movie> moviePageInfo = movieService.getMoviesByCategory(categoryId, page, DEFAULT_SIZE);
-        model.addAttribute("movies", moviePageInfo);
+        PageInfo<MovieVO> newPageInfo = new PageInfo<>();
+        BeanUtils.copyProperties(moviePageInfo, newPageInfo);
+        List<MovieVO> collect = moviePageInfo.getList()
+                .stream().map(this::transform).collect(Collectors.toList());
+        newPageInfo.setList(collect);
+        model.addAttribute("movies", newPageInfo);
         return "movie-list";
     }
 
@@ -112,7 +117,12 @@ public class PageController {
 
         //init movies by category
         PageInfo<Movie> moviePageInfo = movieService.getMoviesByStatus(status, page, DEFAULT_SIZE);
-        model.addAttribute("movies", moviePageInfo);
+        PageInfo<MovieVO> newPageInfo = new PageInfo<>();
+        BeanUtils.copyProperties(moviePageInfo, newPageInfo);
+        List<MovieVO> collect = moviePageInfo.getList()
+                .stream().map(this::transform).collect(Collectors.toList());
+        newPageInfo.setList(collect);
+        model.addAttribute("movies", newPageInfo);
         return "movie-list";
     }
 

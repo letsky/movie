@@ -68,8 +68,7 @@
                             </p>
 
                             <div class="movie__rate">
-                                <div class="score"></div>
-                                <span class="movie__rating">4.1</span>
+                                <span th:if="${r.score != null}" th:text="${r.score}" class="movie__rating">4.1</span>
                             </div>
                         </div>
                     </div>
