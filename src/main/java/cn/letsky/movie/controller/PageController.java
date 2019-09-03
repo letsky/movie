@@ -3,15 +3,9 @@ package cn.letsky.movie.controller;
 import cn.letsky.movie.constrant.MovieStatus;
 import cn.letsky.movie.constrant.OrderStatus;
 import cn.letsky.movie.entity.*;
-import cn.letsky.movie.exception.EntityNotFoundException;
 import cn.letsky.movie.repository.CategoryRepository;
-import cn.letsky.movie.repository.OrderRepository;
 import cn.letsky.movie.repository.ReviewRepository;
-import cn.letsky.movie.service.MovieService;
-import cn.letsky.movie.service.NewsService;
-import cn.letsky.movie.service.RankService;
-import cn.letsky.movie.service.SceneService;
-import cn.letsky.movie.util.CommonUtils;
+import cn.letsky.movie.service.*;
 import cn.letsky.movie.vo.MovieVO;
 import cn.letsky.movie.vo.RankVO;
 import cn.letsky.movie.vo.ReviewVO;
@@ -24,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpSession;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -43,20 +38,19 @@ public class PageController {
     private final SceneService sceneService;
     private final RankService rankService;
     private final ReviewRepository reviewRepository;
-    private final OrderRepository orderRepository;
+    private final OrderService orderService;
 
     public PageController(
             CategoryRepository categoryRepository, MovieService movieService,
             NewsService newsService, SceneService sceneService,
-            RankService rankService, ReviewRepository reviewRepository,
-            OrderRepository orderRepository) {
+            RankService rankService, ReviewRepository reviewRepository, OrderService orderService) {
         this.categoryRepository = categoryRepository;
         this.movieService = movieService;
         this.newsService = newsService;
         this.sceneService = sceneService;
         this.rankService = rankService;
         this.reviewRepository = reviewRepository;
-        this.orderRepository = orderRepository;
+        this.orderService = orderService;
     }
 
     @GetMapping(value = {"/", "/index"})
@@ -136,17 +130,25 @@ public class PageController {
     }
 
     @GetMapping(value = "/movie", params = "id")
-    public String movie(@RequestParam("id") Integer id, Model model) {
+    public String movie(@RequestParam("id") Integer id, HttpSession session, Model model) {
         //init movie
         Movie movie = movieService.getMovie(id);
         MovieVO movieVO = transform(movie);
         model.addAttribute("movie", movieVO);
 
+        model.addAttribute("myScore", 0);
+        Object user = session.getAttribute("user");
+        if (user != null) {
+            Integer userId = (Integer) user;
+            //init user score
+            Integer myScore = rankService.getScore(userId, id);
+            model.addAttribute("myScore", myScore);
+        }
+
         //init scene
         List<Scene> scenes = sceneService.getScenes(id);
         model.addAttribute("scenes", scenes);
 
-        //TODO
         //init comments
         List<ReviewVO> reviews = reviewRepository.findAllByMovieId(id);
         model.addAttribute("reviews", reviews);
@@ -155,7 +157,7 @@ public class PageController {
 
     @GetMapping("/register")
     public String register(Model model) {
-        return "";
+        return "register";
     }
 
     @GetMapping("/ranks")
@@ -186,16 +188,32 @@ public class PageController {
         return "watchlist";
     }
 
-    @GetMapping("/ticket")
+    @GetMapping(value = "/ticket", params = "id")
     public String ticket(@RequestParam("id") Integer id, Model model) {
-        Order order = orderRepository.findById(id)
-                .orElseThrow(EntityNotFoundException::new);
+        Order order = orderService.getOrder(id);
         Integer sceneId = order.getSceneId();
         Scene scene = sceneService.getScene(sceneId);
         String bookedSeats = order.getBookedSeat();
         model.addAttribute("order", order);
         model.addAttribute("scene", scene);
         model.addAttribute("bookedSeats", bookedSeats);
+        return "final";
+    }
+
+    @GetMapping("/ticket")
+    public String ticket(HttpSession session, Model model) {
+        Object user = session.getAttribute("user");
+        if (user == null) {
+            return "error";
+        }
+
+//        Order order = orderService.getOrder(id);
+//        Integer sceneId = order.getSceneId();
+//        Scene scene = sceneService.getScene(sceneId);
+//        String bookedSeats = order.getBookedSeat();
+//        model.addAttribute("order", order);
+//        model.addAttribute("scene", scene);
+//        model.addAttribute("bookedSeats", bookedSeats);
         return "ticket";
     }
 
@@ -224,11 +242,8 @@ public class PageController {
 
     @PostMapping("/pay")
     public String pay(
-            @RequestParam("userId") Integer userId,
-            @RequestParam("sceneId") Integer sceneId,
-            @RequestParam("sits") String[] sits,
-            @RequestParam("phone") String phone,
-            Model model) {
+            @RequestParam("userId") Integer userId, @RequestParam("sceneId") Integer sceneId,
+            @RequestParam("sits") String[] sits, @RequestParam("phone") String phone) {
         Scene scene = sceneService.getScene(sceneId);
         int price = scene.getPrice();
 
@@ -236,6 +251,7 @@ public class PageController {
         int totalPrice = num * price;
         String bookedSeats = Arrays.stream(sits).collect(Collectors.joining(","));
         Order order = Order.builder().sceneId(sceneId)
+                .phone(phone)
                 .status(OrderStatus.PAID)
                 .ticketNum(num)
                 .totalPrice(totalPrice)
@@ -243,8 +259,7 @@ public class PageController {
                 .createTime(new Date())
                 .bookedSeat(bookedSeats)
                 .build();
-        int result = orderRepository.insert(order);
-        CommonUtils.checkInsert(result);
+        orderService.pay(order);
         return "redirect:ticket?id=" + order.getId();
     }
 

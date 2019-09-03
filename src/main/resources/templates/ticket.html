@@ -25,13 +25,16 @@
                         </div>
 
                         <div class="ticket-primery">
-                            <span class="ticket__item ticket__item--primery ticket__film">电影<br><strong
-                                    class="ticket__movie" th:text="${scene.movieName}">The Fifth Estate (2013)</strong>
-                            <span class="ticket__item" style="margin-top: 20px" th:text="${scene.showtime}">17:45</span>
+                            <span class="ticket__item ticket__item--primery ticket__film">电影<br>
+                                <strong class="ticket__movie"
+                                        th:text="${scene.movieName}">The Fifth Estate (2013)</strong>
+                                <span class="ticket__item" style="margin-top: 20px"
+                                      th:text="${scene.showtime}">17:45</span>
                             </span>
 
-                            <span class="ticket__item ticket__item--primery">座位号: <span class="ticket__place"
-                                                                                        th:text="${bookedSeats}">11F, 12F, 13F</span></span>
+                            <span class="ticket__item ticket__item--primery">座位号:
+                                <span class="ticket__place" th:text="${bookedSeats}">11F, 12F, 13F</span>
+                            </span>
                         </div>
                     </div>
                 </div>

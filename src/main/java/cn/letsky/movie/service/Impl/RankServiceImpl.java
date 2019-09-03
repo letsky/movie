@@ -33,8 +33,21 @@ public class RankServiceImpl implements RankService {
         int movieId = rank.getMovieId();
         userService.check(userId);
         movieService.check(movieId);
-        int result = rankRepository.insert(rank);
-        CommonUtils.checkInsert(result);
+        Rank r = rankRepository.findByUserIdAndMovieId(userId, movieId).get();
+        if (r != null) {
+            Rank build = Rank.builder().id(r.getId()).score(rank.getScore()).build();
+            rankRepository.update(build);
+        } else {
+            int result = rankRepository.insert(rank);
+            CommonUtils.checkInsert(result);
+        }
+    }
+
+    @Override
+    public Integer getScore(Integer userId, Integer movieId) {
+        Rank rank = rankRepository.findByUserIdAndMovieId(userId, movieId)
+                .orElse(Rank.builder().score(0).build());
+        return rank.getScore();
     }
 
     @Override

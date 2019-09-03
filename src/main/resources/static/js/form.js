@@ -28,7 +28,7 @@ $(function () {
         });
     }
 
-    $('.login').submit(function (e) {
+    $('#login-form').submit(function (e) {
         e.preventDefault();
         var error = 0;
         var self = $(this);
@@ -79,6 +79,34 @@ $(function () {
         // end post
     }); // end submit
 
+    $('#register-form').submit(function (e) {
+        e.preventDefault();
+        var form = $('#register-form').serializeObject();
+        $.ajax({
+            url: '/api/users/register',
+            method: 'POST',
+            contentType: "application/json;charset=utf-8",
+            dataType: 'json',
+            data: JSON.stringify(form),
+            success: function (data) {
+            },
+            statusCode: {
+                400: function (data) {
+                    console.log(data.responseJSON.message)
+                    alert(data.responseJSON.message);
+                },
+                404: function () {
+                    alert("注册失败");
+                },
+                200: function () {
+                    alert("注册成功");
+                    window.location.href = "/index";
+                }
+            }
+        })
+        // end post
+    }); // end submit
+
     $('#logout').click(function () {
         $.ajax({
             url: "/api/users/logout",
@@ -86,7 +114,7 @@ $(function () {
             contentType: 'application/json;charset=utf-8',
             success: function () {
                 alert("退出登录");
-                window.location.href = "/index";
+                location.reload();
             }
         })
     });

@@ -18,6 +18,9 @@ public interface RankRepository {
     @Select("SELECT * FROM `rank` WHERE id = #{id}")
     Optional<Rank> findById(Integer id);
 
+    @Select("SELECT * FROM `rank` WHERE user_id = #{userId} and movie_id = #{movieId}")
+    Optional<Rank> findByUserIdAndMovieId(Integer userId, Integer movieId);
+
     @Select("SELECT * FROM `rank`")
     List<Rank> findAll();
 

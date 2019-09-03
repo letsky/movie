@@ -20,9 +20,10 @@
                                   class="movie__rating">5.0</span>
                             <img th:src="${movie.poster}" alt="" src="http://placehold.it/526x773"/>
                         </div>
-                        <div class="movie__rate">
+                        <div th:if="${session.user != null}" class="movie__rate">
                             Your vote:
                             <div id="score" class="score"></div>
+                            <input type="text" id="myScore" th:value="${myScore}" hidden="hidden">
                         </div>
                     </div>
 
@@ -53,7 +54,7 @@
                         </p>
 
                         <div th:if="${session.user != null}" class="movie__btns movie__btns--full">
-                            <a th:if="${movie.status eq 1}" href="#" class="btn btn-md btn--warning">预订此电影</a>
+                            <a th:if="${movie.status eq 1}" href="#scene" class="btn btn-md btn--warning">预订此电影</a>
                             <a href="#" class="watchlist">添加到播放列表</a>
                         </div>
                     </div>
@@ -64,22 +65,7 @@
                 <h2 class="page-heading">剧情</h2>
 
                 <p class="movie__describe" th:text="${movie.plot}">
-                    Bilbo Baggins is swept into a quest to reclaim the lost Dwarf
-                    Kingdom of Erebor from the fearsome dragon Smaug. Approached out
-                    of the blue by the wizard Gandalf the Grey, Bilbo finds himself
-                    joining a company of thirteen dwarves led by the legendary
-                    warrior, Thorin Oakenshield. Their journey will take them into the
-                    Wild; through treacherous lands swarming with Goblins and Orcs,
-                    deadly Wargs and Giant Spiders, Shapeshifters and Sorcerers.
-                    Although their goal lies to the East and the wastelands of the
-                    Lonely Mountain first they must escape the goblin tunnels, where
-                    Bilbo meets the creature that will change his life forever ...
-                    Gollum. Here, alone with Gollum, on the shores of an underground
-                    lake, the unassuming Bilbo Baggins not only discovers depths of
-                    guile and courage that surprise even him, he also gains possession
-                    of Gollum's "precious" ring that holds unexpected and useful
-                    qualities ... A simple, gold ring that is tied to the fate of all
-                    Middle-earth in ways Bilbo cannot begin to ...
+                    Bilbo Baggins is swept into a quest to reclaim
                 </p>
             </div>
 
@@ -89,7 +75,7 @@
                 <div class="clearfix"></div>
 
                 <div th:if="${!#lists.isEmpty(scenes)}">
-                    <h2 class="page-heading">场次</h2>
+                    <h2 id="scene" class="page-heading">场次</h2>
                     <div class="time-select">
                         <div class="time-select__group">
                             <div class="col-sm-4">
@@ -107,8 +93,8 @@
 
                 <div class="comment-wrapper">
                     <form th:if="${session.user != null}" class="comment-form">
-                        <input type="text" name="userId" th:value="${session.user}" hidden="hidden">
-                        <input type="text" name="movieId" th:value="${movie.id}" hidden="hidden">
+                        <input type="text" id="userId" name="userId" th:value="${session.user}" hidden="hidden">
+                        <input type="text" id="movieId" name="movieId" th:value="${movie.id}" hidden="hidden">
                         <textarea class="comment-form__text" name="content" placeholder="发表您的评论吧"></textarea>
                         <button type="submit" class="btn btn-md btn--danger comment-form__btn">
                             发表评论
@@ -161,6 +147,35 @@
 <script type="text/javascript">
     $(document).ready(function () {
         init_MoviePage();
+
+        //Rating score init
+        $('.score').raty({
+            width: 130,
+            score: $('#myScore').val(),
+            path: 'images/rate/',
+            starOff: 'star-off.svg',
+            starOn: 'star-on.svg',
+            click: function (score, e) {
+                var userId = parseInt($('#userId').val());
+                var movieId = parseInt($('#movieId').val());
+                var data = {
+                    "userId": userId,
+                    "movieId": movieId,
+                    "score": parseInt(score)
+                }
+                $.ajax({
+                    url: '/api/ranks',
+                    method: 'POST',
+                    data: JSON.stringify(data),
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    success: function (data) {
+                        $('.score').html('<span class="rates__done">感谢您的评分<span>')
+                    }
+                });
+            }
+        });
+
     });
 
     function chooseScene(sceneId) {

@@ -204,30 +204,6 @@ function init_MovieList() {
 function init_MoviePage() {
     "use strict";
 
-    //1. Rating scrore init
-    //Rating star
-    $('.score').raty({
-        width: 130,
-        score: 5,
-        path: 'images/rate/',
-        starOff: 'star-off.svg',
-        starOn: 'star-on.svg'
-    });
-
-
-    //4. Dropdown init 
-    //select
-    $("#select-sort").selectbox({
-        onChange: function (val, inst) {
-
-            $(inst.input[0]).children().each(function (item) {
-                $(this).removeAttr('selected');
-            });
-            $(inst.input[0]).find('[value="' + val + '"]').attr('selected', 'selected');
-        }
-
-    });
-
     //6. Reply comment form
     //reply comment function
     $('.comment__reply').click(function (e) {
@@ -239,32 +215,6 @@ function init_MoviePage() {
                             <button type='submit' class='btn btn-md btn--danger comment-form__btn'>发表评论</button>\
                         </form>");
     });
-
-    //7. Timetable active element
-    $('.time-select__item').click(function () {
-        $('.time-select__item').removeClass('active');
-        $(this).addClass('active');
-    });
-
-}
-
-function init_Rates() {
-    "use strict";
-
-    //1. Rating fucntion
-    //Rating star
-    $('.score').raty({
-        width: 130,
-        score: 0,
-        path: 'images/rate/',
-        starOff: 'star-off.svg',
-        starOn: 'star-on.svg'
-    });
-
-    //After rate callback
-    $('.score').click(function () {
-        $(this).html('<span class="rates__done">感谢您的评分<span>')
-    })
 }
 
 function init_SinglePage() {

@@ -24,6 +24,8 @@ public class Order {
      */
     private Integer userId;
 
+    private String phone;
+
     /**
      * 场次id
      */

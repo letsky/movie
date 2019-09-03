@@ -9,4 +9,6 @@ public interface SceneService {
     List<Scene> getScenes(Integer movieId);
 
     Scene getScene(Integer sceneId);
+
+    void update(Scene scene);
 }

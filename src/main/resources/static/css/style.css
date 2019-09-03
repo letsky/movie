@@ -728,7 +728,7 @@ a:focus {
 textarea {
   resize: none;
 }
-input,
+
 textarea {
   -webkit-appearance: none;
 }
@@ -7686,7 +7686,7 @@ ul#navigation li.mega-menu__nav-item:hover:before {
 .field-wrap {
   padding: 0 40px;
   margin: 0 auto;
-  max-width: 400px;
+    max-width: 500px;
 }
 /* Overlay style */
 .overlay {
