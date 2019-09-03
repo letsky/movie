@@ -7,4 +7,6 @@ import java.util.List;
 public interface SceneService {
 
     List<Scene> getScenes(Integer movieId);
+
+    Scene getScene(Integer sceneId);
 }

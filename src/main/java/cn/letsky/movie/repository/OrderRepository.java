@@ -1,10 +1,7 @@
 package cn.letsky.movie.repository;
 
 import cn.letsky.movie.entity.Order;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -22,6 +19,7 @@ public interface OrderRepository {
     @Select("SELECT * FROM `order`")
     List<Order> findAll();
 
+    @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
     @Insert("INSERT INTO `order` (user_id, scene_id, ticket_num, total_price, booked_seat, status, create_time) " +
             "VALUES (#{userId}, #{sceneId}, #{ticketNum}, #{totalPrice}, #{bookedSeat}, #{status}, #{createTime})")
     int insert(Order order);

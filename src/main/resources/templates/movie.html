@@ -97,7 +97,7 @@
                             </div>
                             <ul class="col-sm-8 items-wrap">
                                 <li th:each="scene : ${scenes}" class="time-select__item" th:text="${scene.showtime}"
-                                    th:data="${scene.id}"></li>
+                                    th:onclick="|chooseScene(${scene.id})|"></li>
                             </ul>
                         </div>
                     </div>
@@ -121,13 +121,7 @@
                             <a th:text="${review.nickname}" href="#" class="comment__author">Roberta Inetti</a>
                             <p th:text="${#dates.format(review.createTime, 'yyyy-MM-dd HH:mm:ss')}"
                                class="comment__date">today | 03:04</p>
-                            <p th:text="${review.content}" class="comment__message">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut
-                                vitae enim sollicitudin, euismod erat id, fringilla lacus.
-                                Cras ut rutrum lectus. Etiam ante justo, volutpat at viverra
-                                a, mattis in velit. Morbi molestie rhoncus enim, vitae
-                                sagittis dolor tristique et.
-                            </p>
+                            <p th:text="${review.content}" class="comment__message"></p>
                             <a href="#" class="comment__reply">Reply</a>
                         </div>
                         <!-- 评论结束 -->
@@ -168,6 +162,10 @@
     $(document).ready(function () {
         init_MoviePage();
     });
+
+    function chooseScene(sceneId) {
+        window.location.href = '/order?sceneId=' + sceneId;
+    }
 </script>
 </body>
 </html>

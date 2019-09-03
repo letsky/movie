@@ -1,6 +1,7 @@
 package cn.letsky.movie.service.Impl;
 
 import cn.letsky.movie.entity.Scene;
+import cn.letsky.movie.exception.EntityNotFoundException;
 import cn.letsky.movie.repository.SceneRepository;
 import cn.letsky.movie.service.SceneService;
 import org.springframework.stereotype.Service;
@@ -19,5 +20,11 @@ public class SceneServiceImpl implements SceneService {
     @Override
     public List<Scene> getScenes(Integer movieId) {
         return sceneRepository.findByMovieId(movieId);
+    }
+
+    @Override
+    public Scene getScene(Integer sceneId) {
+        return sceneRepository.findById(sceneId)
+                .orElseThrow(EntityNotFoundException::new);
     }
 }

@@ -28,12 +28,12 @@ public class Scene {
     private Integer seatNum = 166;
 
     /**
-     * 场次时间，多个时间用分隔符分开
+     * 场次时间
      */
     private String showtime;
 
     /**
-     * 预订的座位，多个座位号用分隔符分开
+     * 已预订的座位，多个座位号用分隔符分开
      */
-    private Integer bookedSeat;
+    private String bookedSeat;
 }

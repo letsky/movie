@@ -1,16 +1,17 @@
 package cn.letsky.movie.controller;
 
 import cn.letsky.movie.constrant.MovieStatus;
-import cn.letsky.movie.entity.Category;
-import cn.letsky.movie.entity.Movie;
-import cn.letsky.movie.entity.News;
-import cn.letsky.movie.entity.Scene;
+import cn.letsky.movie.constrant.OrderStatus;
+import cn.letsky.movie.entity.*;
+import cn.letsky.movie.exception.EntityNotFoundException;
 import cn.letsky.movie.repository.CategoryRepository;
+import cn.letsky.movie.repository.OrderRepository;
 import cn.letsky.movie.repository.ReviewRepository;
 import cn.letsky.movie.service.MovieService;
 import cn.letsky.movie.service.NewsService;
 import cn.letsky.movie.service.RankService;
 import cn.letsky.movie.service.SceneService;
+import cn.letsky.movie.util.CommonUtils;
 import cn.letsky.movie.vo.MovieVO;
 import cn.letsky.movie.vo.RankVO;
 import cn.letsky.movie.vo.ReviewVO;
@@ -20,8 +21,11 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,17 +43,20 @@ public class PageController {
     private final SceneService sceneService;
     private final RankService rankService;
     private final ReviewRepository reviewRepository;
+    private final OrderRepository orderRepository;
 
     public PageController(
             CategoryRepository categoryRepository, MovieService movieService,
             NewsService newsService, SceneService sceneService,
-            RankService rankService, ReviewRepository reviewRepository) {
+            RankService rankService, ReviewRepository reviewRepository,
+            OrderRepository orderRepository) {
         this.categoryRepository = categoryRepository;
         this.movieService = movieService;
         this.newsService = newsService;
         this.sceneService = sceneService;
         this.rankService = rankService;
         this.reviewRepository = reviewRepository;
+        this.orderRepository = orderRepository;
     }
 
     @GetMapping(value = {"/", "/index"})
@@ -60,7 +67,9 @@ public class PageController {
 
         //init 8 released movies
         List<MovieVO> collect = movieService
-                .getMoviesByStatus(MovieStatus.ON, 1, 8).getList().stream().map(e -> transform(e)).collect(Collectors.toList());
+                .getMoviesByStatus(MovieStatus.ON, 1, 8)
+                .getList().stream().map(e -> transform(e))
+                .collect(Collectors.toList());
         model.addAttribute("releasedMovies", collect);
 
         //init 3 news
@@ -178,8 +187,65 @@ public class PageController {
     }
 
     @GetMapping("/ticket")
-    public String ticket(Model model) {
+    public String ticket(@RequestParam("id") Integer id, Model model) {
+        Order order = orderRepository.findById(id)
+                .orElseThrow(EntityNotFoundException::new);
+        Integer sceneId = order.getSceneId();
+        Scene scene = sceneService.getScene(sceneId);
+        String bookedSeats = order.getBookedSeat();
+        model.addAttribute("order", order);
+        model.addAttribute("scene", scene);
+        model.addAttribute("bookedSeats", bookedSeats);
         return "ticket";
+    }
+
+    @GetMapping(value = "/order", params = "sceneId")
+    public String chooseScene(@RequestParam("sceneId") Integer sceneId, Model model) {
+        Scene scene = sceneService.getScene(sceneId);
+        model.addAttribute("scene", scene);
+        return "orderSeat";
+    }
+
+    @GetMapping(value = "/order", params = {"sceneId", "sits"})
+    public String order(
+            @RequestParam("sceneId") Integer sceneId,
+            @RequestParam("sits") String[] sits, Model model) {
+        int num = sits.length;
+        Scene scene = sceneService.getScene(sceneId);
+        int price = scene.getPrice();
+        int totalPrice = price * num;
+
+        model.addAttribute("num", num);
+        model.addAttribute("totalPrice", totalPrice);
+        model.addAttribute("scene", scene);
+        model.addAttribute("sits", sits);
+        return "pay";
+    }
+
+    @PostMapping("/pay")
+    public String pay(
+            @RequestParam("userId") Integer userId,
+            @RequestParam("sceneId") Integer sceneId,
+            @RequestParam("sits") String[] sits,
+            @RequestParam("phone") String phone,
+            Model model) {
+        Scene scene = sceneService.getScene(sceneId);
+        int price = scene.getPrice();
+
+        int num = sits.length;
+        int totalPrice = num * price;
+        String bookedSeats = Arrays.stream(sits).collect(Collectors.joining(","));
+        Order order = Order.builder().sceneId(sceneId)
+                .status(OrderStatus.PAID)
+                .ticketNum(num)
+                .totalPrice(totalPrice)
+                .userId(userId)
+                .createTime(new Date())
+                .bookedSeat(bookedSeats)
+                .build();
+        int result = orderRepository.insert(order);
+        CommonUtils.checkInsert(result);
+        return "redirect:ticket?id=" + order.getId();
     }
 
     private MovieVO transform(Movie movie) {
@@ -191,7 +257,6 @@ public class PageController {
         movieVO.setScore(rankVO.getScore());
         Long reviewNum = reviewRepository.count(movieId);
         movieVO.setReviewNum(reviewNum);
-
         return movieVO;
     }
 }

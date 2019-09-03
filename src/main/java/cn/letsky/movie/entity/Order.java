@@ -48,7 +48,7 @@ public class Order {
      * 订单状态
      * {@link cn.letsky.movie.constrant.OrderStatus}
      */
-    private String status = OrderStatus.UNPAID;
+    private Integer status = OrderStatus.UNPAID;
 
     /**
      * 订单创建时间

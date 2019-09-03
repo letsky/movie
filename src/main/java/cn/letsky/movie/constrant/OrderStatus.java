@@ -8,10 +8,10 @@ public class OrderStatus {
     /**
      * 未支付
      */
-    public static final String UNPAID = "unpaid";
+    public static final int UNPAID = 0;
 
     /**
      * 已支付
      */
-    public static final String PAID = "paid";
+    public static final int PAID = 1;
 }

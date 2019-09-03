@@ -18,4 +18,4 @@ logging:
     cn.letsky.movie.repository: debug
 upload:
   suffix: /imgs/
-  position: D:\upload
+  position: E:\upload
