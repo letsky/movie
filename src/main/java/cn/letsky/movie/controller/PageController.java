@@ -9,6 +9,7 @@ import cn.letsky.movie.service.*;
 import cn.letsky.movie.vo.MovieVO;
 import cn.letsky.movie.vo.RankVO;
 import cn.letsky.movie.vo.ReviewVO;
+import cn.letsky.movie.vo.TicketVO;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.BeanUtils;
@@ -203,17 +204,20 @@ public class PageController {
     @GetMapping("/ticket")
     public String ticket(HttpSession session, Model model) {
         Object user = session.getAttribute("user");
-        if (user == null) {
-            return "error";
-        }
+        Integer userId = (Integer) user;
 
-//        Order order = orderService.getOrder(id);
-//        Integer sceneId = order.getSceneId();
-//        Scene scene = sceneService.getScene(sceneId);
-//        String bookedSeats = order.getBookedSeat();
-//        model.addAttribute("order", order);
-//        model.addAttribute("scene", scene);
-//        model.addAttribute("bookedSeats", bookedSeats);
+        List<TicketVO> collect = orderService.getOrders(userId).stream()
+                .map(e -> {
+                    TicketVO ticketVO = new TicketVO();
+                    BeanUtils.copyProperties(e, ticketVO);
+                    Integer sceneId = e.getSceneId();
+                    Scene scene = sceneService.getScene(sceneId);
+                    ticketVO.setMovieName(scene.getMovieName());
+                    ticketVO.setShowtime(scene.getShowtime());
+                    return ticketVO;
+                }).collect(Collectors.toList());
+
+        model.addAttribute("tickets", collect);
         return "ticket";
     }
 

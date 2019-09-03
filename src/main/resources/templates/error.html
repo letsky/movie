@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
   <head>
     <!-- Basic Page Needs -->
     <meta charset="utf-8" />
@@ -30,7 +30,7 @@
 
         <div class="error">
           <img alt="" src="images/error.png" class="error__image" />
-          <h1 class="error__text">sorry, but page can’t be found</h1>
+          <h1 class="error__text" th:if="${message != null}" th:text="${message}">sorry, but page can’t be found</h1>
             <a href="/index" class="btn btn-md btn--warning"
             >return to homepage</a
           >

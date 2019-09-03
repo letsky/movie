@@ -19,6 +19,9 @@ public interface OrderRepository {
     @Select("SELECT * FROM `order`")
     List<Order> findAll();
 
+    @Select("SELECT * FROM `order` WHERE user_id = #{userId}")
+    List<Order> findAllByUserId(Integer userId);
+
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
     @Insert("INSERT INTO `order` (user_id, scene_id, ticket_num, total_price, booked_seat, status, create_time) " +
             "VALUES (#{userId}, #{sceneId}, #{ticketNum}, #{totalPrice}, #{bookedSeat}, #{status}, #{createTime})")
