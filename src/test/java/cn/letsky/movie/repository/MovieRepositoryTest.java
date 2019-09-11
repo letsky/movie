@@ -1,8 +1,10 @@
 package cn.letsky.movie.repository;
 
-import cn.letsky.movie.constrant.MovieStatus;
+import cn.letsky.movie.constant.MovieStatus;
 import cn.letsky.movie.entity.Movie;
 import cn.letsky.movie.exception.EntityNotFoundException;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -114,5 +116,13 @@ public class MovieRepositoryTest {
         List<Movie> movies = repository.findLimitByStatus(MovieStatus.ON, 6);
         System.out.println(movies);
         assertNotEquals(0, movies.size());
+    }
+
+    //test pagehelper in lazy loading
+    @Test
+    public void test10() {
+        PageInfo<Movie> objectPageInfo = PageHelper.startPage(1, 2).doSelectPageInfo(repository::findAll);
+        System.out.println(objectPageInfo);
+        assertEquals(2, objectPageInfo.getList().size());
     }
 }

@@ -1,6 +1,6 @@
 package cn.letsky.movie.entity;
 
-import cn.letsky.movie.constrant.OrderStatus;
+import cn.letsky.movie.constant.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -48,7 +48,7 @@ public class Order {
 
     /**
      * 订单状态
-     * {@link cn.letsky.movie.constrant.OrderStatus}
+     * {@link cn.letsky.movie.constant.OrderStatus}
      */
     private Integer status = OrderStatus.UNPAID;
 

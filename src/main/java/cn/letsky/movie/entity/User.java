@@ -1,7 +1,7 @@
 package cn.letsky.movie.entity;
 
-import cn.letsky.movie.constrant.Gender;
-import cn.letsky.movie.constrant.Role;
+import cn.letsky.movie.constant.Gender;
+import cn.letsky.movie.constant.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,13 +27,13 @@ public class User {
 
     /**
      * 性别
-     * {@link cn.letsky.movie.constrant.Gender}
+     * {@link cn.letsky.movie.constant.Gender}
      */
     private Integer gender = Gender.OTHER;
 
     /**
      * 角色
-     * {@link cn.letsky.movie.constrant.Role}
+     * {@link cn.letsky.movie.constant.Role}
      */
     private String role = Role.USER;
 }

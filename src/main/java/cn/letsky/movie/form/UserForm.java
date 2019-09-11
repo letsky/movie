@@ -1,6 +1,6 @@
 package cn.letsky.movie.form;
 
-import cn.letsky.movie.constrant.Gender;
+import cn.letsky.movie.constant.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,7 +26,7 @@ public class UserForm {
 
     /**
      * 性别
-     * {@link cn.letsky.movie.constrant.Gender}
+     * {@link cn.letsky.movie.constant.Gender}
      */
     private Integer gender = Gender.OTHER;
 }

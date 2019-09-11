@@ -1,6 +1,6 @@
 package cn.letsky.movie.controller.api;
 
-import cn.letsky.movie.constrant.MovieStatus;
+import cn.letsky.movie.constant.MovieStatus;
 import cn.letsky.movie.entity.Movie;
 import cn.letsky.movie.exception.EntityNotFoundException;
 import cn.letsky.movie.form.MovieForm;

@@ -1,4 +1,4 @@
-package cn.letsky.movie.constrant;
+package cn.letsky.movie.constant;
 
 /**
  * 订单状态

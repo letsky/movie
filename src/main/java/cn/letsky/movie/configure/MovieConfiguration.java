@@ -23,6 +23,7 @@ public class MovieConfiguration implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(passportInterceptor)
+                .addPathPatterns("/order")
                 .addPathPatterns("/ticket")
                 .addPathPatterns("/watchlist");
     }

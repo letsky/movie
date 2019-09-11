@@ -82,8 +82,11 @@
                                 <p class="time-select__place">时间表</p>
                             </div>
                             <ul class="col-sm-8 items-wrap">
-                                <li th:each="scene : ${scenes}" class="time-select__item" th:text="${scene.showtime}"
+                                <li th:if="${session.user != null}" th:each="scene : ${scenes}"
+                                    class="time-select__item" th:text="${scene.showtime}"
                                     th:onclick="|chooseScene(${scene.id})|"></li>
+                                <li th:unless="${session.user != null}" th:each="scene : ${scenes}"
+                                    class="time-select__item" th:text="${scene.showtime}"></li>
                             </ul>
                         </div>
                     </div>

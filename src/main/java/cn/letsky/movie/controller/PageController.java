@@ -1,7 +1,7 @@
 package cn.letsky.movie.controller;
 
-import cn.letsky.movie.constrant.MovieStatus;
-import cn.letsky.movie.constrant.OrderStatus;
+import cn.letsky.movie.constant.MovieStatus;
+import cn.letsky.movie.constant.OrderStatus;
 import cn.letsky.movie.entity.*;
 import cn.letsky.movie.repository.CategoryRepository;
 import cn.letsky.movie.repository.ReviewRepository;

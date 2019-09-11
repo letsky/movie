@@ -1,6 +1,6 @@
 package cn.letsky.movie.entity;
 
-import cn.letsky.movie.constrant.MovieStatus;
+import cn.letsky.movie.constant.MovieStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -56,7 +56,7 @@ public class Movie {
 
     /**
      * 电影状态 上映/下映
-     * {@link cn.letsky.movie.constrant.MovieStatus}
+     * {@link cn.letsky.movie.constant.MovieStatus}
      */
     private Integer status = MovieStatus.OFF;
 
