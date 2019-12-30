@@ -2,11 +2,15 @@ package cn.letsky.movie.configure;
 
 import cn.letsky.movie.advice.PassportInterceptor;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.ResourceBundle;
 
 @Configuration
 public class MovieConfiguration implements WebMvcConfigurer {
